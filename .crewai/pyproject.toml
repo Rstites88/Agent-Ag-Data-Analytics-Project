@@ -1,0 +1,64 @@
+[project]
+# CUSTOMIZE: Update name, description, and authors for your project
+name = "crewai-review"
+version = "0.1.0"
+description = "AI-powered code review using CrewAI and OpenRouter"
+requires-python = ">=3.10,<3.14"
+authors = [{name = "Your Name", email = "you@example.com"}]
+
+dependencies = [
+    "crewai>=0.86.0",
+    "crewai-tools>=0.12.0",
+    "litellm>=1.0.0",
+    # LiteLLM proxy dependencies (litellm[proxy] extra doesn't exist in v1.9.4)
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
+    "gunicorn>=22.0.0",
+    "apscheduler>=3.10.0",
+    "orjson>=3.10.0",
+    "python-multipart>=0.0.6",
+    "prisma>=0.11.0",
+    "email-validator>=2.0.0",  # Required for Pydantic EmailStr validation
+    "fastapi-sso>=0.10.0",  # Required for LiteLLM proxy SSO features
+    # Other dependencies
+    "PyGithub>=2.1.1",
+    "python-dotenv>=1.0.0",
+    "langchain-openai>=0.2.0",
+    "pyyaml>=6.0",
+    # Testing dependencies (moved from dev to ensure tests run in CI)
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6.0",
+    "black>=24.0.0",
+    "mypy>=1.0.0",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["config*", "crews*", "tools*"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312", "py313"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I001"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false

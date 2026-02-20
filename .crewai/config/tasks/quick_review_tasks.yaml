@@ -1,0 +1,85 @@
+parse_and_contextualize:
+  description: |
+    YOU MUST READ THE DIFF AND COMMIT MESSAGES:
+
+    STEP 1: Call WorkspaceTool(operation="read", filename="diff.txt", content="")
+    STEP 1b: Call WorkspaceTool(operation="read", filename="context_pack.md", content="")
+    (if it exists)
+    STEP 2: Call WorkspaceTool(operation="read", filename="commit_messages.txt", content="")
+    STEP 3: Call WorkspaceTool(operation="read", filename="scope.json", content="")
+    (if it exists, use it to prioritize recent/near-HEAD changes)
+    If commit_messages.txt is empty, try: WorkspaceTool(operation="read", filename="commits.json", content="")
+
+    Apply smart diff sampling strategy:
+    - If <100 lines changed: return full diff
+    - If 100-500 lines: sample files matching commit intent keywords
+    - If >500 lines: sample only high-risk files (auth, db, config, payment, etc.)
+
+    Produce JSON output with:
+    - commit_intent: summary of what changed (extracted from messages)
+    - total_changes: count of +/- lines
+    - changed_files: [{path, type, additions, risk_level}]
+    - review_focus_areas: list of focus tags (security, database, config, etc.)
+    - sampled_diff: the filtered/focused diff text (for next agent)
+
+    Call: WorkspaceTool(operation="write", filename="diff_context.json", content=<your JSON>)
+  expected_output: |
+    "Context prepared: N files analyzed, X focus areas identified, diff sampled"
+
+detect_code_issues:
+  description: |
+    Using the diff context from the previous agent, detect code issues.
+
+    STEP 1: Call WorkspaceTool(operation="read", filename="diff_context.json", content="")
+    Extract the sampled_diff and review_focus_areas
+
+    Scan for issues in ONLY the changed code:
+    - Security: SQL injection, hardcoded secrets, eval/exec, auth bypasses
+    - Performance: N+1 queries, nested loops, missing pagination
+    - Quality: magic numbers, error handling, duplicate code
+    - Best practices: debug logging, TODO without tickets, undocumented public APIs
+
+    Return JSON with keys:
+    - critical: [{file, line, code_snippet, description, severity}]
+    - warnings: [{file, line, code_snippet, description}]
+    - info: [{file, line, code_snippet, description}]
+
+    Call: WorkspaceTool(operation="write", filename="code_issues.json", content=<your JSON>)
+  expected_output: |
+    "Analysis complete: N critical issues, M warnings detected"
+
+synthesize_report:
+  description: |
+    Create the final quick_review.json by synthesizing findings.
+
+    STEP 1: Call WorkspaceTool(operation="read", filename="diff_context.json", content="")
+    STEP 2: Call WorkspaceTool(operation="read", filename="code_issues.json", content="")
+
+    Process:
+    1. Group similar issues together (same file+line+category)
+    2. Rank by severity and impact
+    3. Add clear fix_suggestion for each critical/warning
+    4. Add positive notes if you see good practices
+    5. Decide merge_status: APPROVE, REQUEST_CHANGES, or NEEDS_DISCUSSION
+
+    Write final JSON with structure:
+    {
+      "status": "ok|warning|critical",
+      "summary": "one-line summary",
+      "total_findings": N,
+      "critical": [...],
+      "warnings": [...],
+      "info": [...],
+      "merge_status": "APPROVE|REQUEST_CHANGES|NEEDS_DISCUSSION",
+      "merge_rationale": "why this decision"
+    }
+
+    Call: WorkspaceTool(operation="write", filename="quick_review.json", content=<final JSON>)
+
+    CRITICAL:
+    - Output must be valid JSON
+    - Include ALL findings (no truncation)
+    - Minimum 100 characters in summary
+    - Merge status must be one of the 3 options
+  expected_output: |
+    "Review synthesis complete: quick_review.json written with [N] findings"

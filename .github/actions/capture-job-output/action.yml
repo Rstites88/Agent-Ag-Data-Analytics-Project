@@ -1,0 +1,136 @@
+name: 'Capture Job Output'
+description: 'Captures complete job summary and logs for CrewAI analysis'
+inputs:
+  job-name:
+    description: 'Name of the job (used for folder structure)'
+    required: true
+  job-conclusion:
+    description: 'Job conclusion (success, failure, cancelled)'
+    required: true
+    default: 'success'
+  mode:
+    description: 'Mode: "start" to initialize capture, "finish" to finalize'
+    required: true
+    default: 'finish'
+  summary-file:
+    description:
+      'Path to a file containing the job summary (optional). If provided, this
+      file is used instead of GITHUB_STEP_SUMMARY.'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Initialize log capture
+      if: inputs.mode == 'start'
+      shell: bash
+      run: |
+        set -e
+
+        JOB_NAME="${{ inputs.job-name }}"
+        JOB_FOLDER=$(echo "$JOB_NAME" | tr '[:upper:]' '[:lower:]' | tr ' /' '-')
+
+        echo "🎬 Starting log capture for: $JOB_NAME"
+
+        # Create output directory and log file
+        mkdir -p ".crewai-job-output"
+        touch ".crewai-job-output/current-job.log"
+
+        # Save job folder name for later steps
+        echo "$JOB_FOLDER" > ".crewai-job-output/current-job-folder"
+
+        # Log the start
+        echo "========================================" | tee -a .crewai-job-output/current-job.log
+        echo "Job: $JOB_NAME" | tee -a .crewai-job-output/current-job.log
+        echo "Started: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" | tee -a .crewai-job-output/current-job.log
+        echo "========================================" | tee -a .crewai-job-output/current-job.log
+        echo "" | tee -a .crewai-job-output/current-job.log
+
+    - name: Finalize job capture
+      if: inputs.mode == 'finish'
+      shell: bash
+      run: |
+        set -e
+
+        JOB_NAME="${{ inputs.job-name }}"
+        JOB_FOLDER=$(cat ".crewai-job-output/current-job-folder" 2>/dev/null || echo "$JOB_NAME" | tr '[:upper:]' '[:lower:]' | tr ' /' '-')
+        OUTPUT_DIR=".crewai-job-output/$JOB_FOLDER"
+
+        echo "📦 Finalizing capture for job: $JOB_NAME"
+        mkdir -p "$OUTPUT_DIR"
+
+        # Add job completion marker to log
+        echo "" >> .crewai-job-output/current-job.log
+        echo "========================================" >> .crewai-job-output/current-job.log
+        echo "Job Completed: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> .crewai-job-output/current-job.log
+        echo "Conclusion: ${{ inputs.job-conclusion }}" >> .crewai-job-output/current-job.log
+        echo "========================================" >> .crewai-job-output/current-job.log
+
+        # Move log to final location
+        if [ -f ".crewai-job-output/current-job.log" ]; then
+          mv ".crewai-job-output/current-job.log" "$OUTPUT_DIR/log.txt"
+          LOG_SIZE=$(wc -c < "$OUTPUT_DIR/log.txt")
+          LOG_LINES=$(wc -l < "$OUTPUT_DIR/log.txt")
+          echo "  ✅ Captured log ($LOG_SIZE bytes, $LOG_LINES lines)"
+        else
+          echo "[Log file not found]" > "$OUTPUT_DIR/log.txt"
+          LOG_SIZE=0
+          LOG_LINES=0
+          echo "  ⚠️ No log file found"
+        fi
+
+        # Capture summary with robust fallback
+        SUMMARY_SOURCE=""
+
+        # Check input file first (must be non-empty)
+        if [ -n "${{ inputs.summary-file }}" ] && [ -s "${{ inputs.summary-file }}" ]; then
+          echo "  ℹ️  Using provided summary file: ${{ inputs.summary-file }}"
+          SUMMARY_SOURCE="${{ inputs.summary-file }}"
+        # Then check step summary (must be non-empty)
+        elif [ -n "$GITHUB_STEP_SUMMARY" ] && [ -s "$GITHUB_STEP_SUMMARY" ]; then
+          SUMMARY_SOURCE="$GITHUB_STEP_SUMMARY"
+        fi
+
+        if [ -n "$SUMMARY_SOURCE" ]; then
+          cp "$SUMMARY_SOURCE" "$OUTPUT_DIR/summary.md"
+
+          # Double check if copied file is empty (just in case)
+          if [ ! -s "$OUTPUT_DIR/summary.md" ]; then
+             echo "  ⚠️ Warning: Summary file was empty after copy."
+             echo "# $JOB_NAME" > "$OUTPUT_DIR/summary.md"
+             echo "" >> "$OUTPUT_DIR/summary.md"
+             echo "Summary was empty." >> "$OUTPUT_DIR/summary.md"
+          else
+             echo "  ✅ Copied summary ($(wc -l < "$OUTPUT_DIR/summary.md") lines)"
+          fi
+        else
+          # Fallback if no source found
+          echo "# $JOB_NAME" > "$OUTPUT_DIR/summary.md"
+          echo "" >> "$OUTPUT_DIR/summary.md"
+          echo "No step summary available." >> "$OUTPUT_DIR/summary.md"
+          echo "  ⚠️ No summary found, created placeholder"
+        fi
+
+        # Create metadata JSON
+        cat > "$OUTPUT_DIR/metadata.json" <<EOF
+        {
+          "job_name": "$JOB_NAME",
+          "job_folder": "$JOB_FOLDER",
+          "conclusion": "${{ inputs.job-conclusion }}",
+          "workflow": "${{ github.workflow }}",
+          "run_id": "${{ github.run_id }}",
+          "run_number": "${{ github.run_number }}",
+          "timestamp": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')",
+          "summary_exists": $([ -s "$OUTPUT_DIR/summary.md" ] && echo "true" || echo "false"),
+          "log_exists": $([ -s "$OUTPUT_DIR/log.txt" ] && echo "true" || echo "false"),
+          "log_size_bytes": $LOG_SIZE,
+          "log_lines": $LOG_LINES
+        }
+        EOF
+
+        echo "  ✅ Created metadata"
+        echo ""
+        echo "📋 Output captured to: $OUTPUT_DIR"
+        ls -lh "$OUTPUT_DIR"
+        echo ""
+        echo "ℹ️  Workflow must upload .crewai-job-output/ as artifact"

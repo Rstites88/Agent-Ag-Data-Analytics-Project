@@ -1,0 +1,67 @@
+review_data_engineering:
+  description: |
+    Perform a data engineering review of changed code and data assets.
+
+    STEP 1: Read core context
+    - Call WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - Call WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - Call WorkspaceTool(operation="read", filename="diff_context.json", content="")
+      (if it exists)
+    - Call WorkspaceTool(operation="read", filename="scope.json", content="")
+      (if it exists)
+    - Call WorkspaceTool(operation="read", filename="changed_files_index.json", content="")
+      (if it exists)
+
+    STEP 1b: Selective data-system exploration
+    - Use CommitInfoTool(commit_sha=<head sha>, repository=<repo>) to anchor latest branch intent
+    - Use RelatedFilesTool(changed_files=[...], repository=<workspace path>) to locate dependent pipelines/models
+    - Use FileContentTool(file_path=<target>, repository=<repo>, ref="HEAD") for deep checks on SQL/migrations/jobs
+    - Use FileContentTool(file_path=<target>, repository=<repo>, ref=<merge_base>) only for high-risk before/after comparisons
+
+    STEP 2: Analyze data-system risk with changed-code emphasis
+    Primary focus: changed code and data files.
+    Secondary posture check: project-wide patterns that can break changed flows.
+
+    Review for:
+    - SQL correctness and safety (joins, filters, accidental cartesian products)
+    - Query performance regressions (N+1, missing indexes, full scans)
+    - Schema migration safety (backfills, locking, rollback readiness)
+    - ETL/ELT idempotency and retry safety
+    - Data quality guardrails (null handling, schema drift, dedupe)
+    - Lineage and dependency breakage across jobs/pipelines
+    - Time-window correctness (timezone boundaries, late-arriving data)
+    - PII handling and data minimization in transformed datasets
+    - Contract compatibility for downstream app/API consumers
+
+    STEP 3: Write structured output
+    Call WorkspaceTool(operation="write", filename="data_engineering_review.json", content=<JSON>)
+
+    Output schema:
+    {
+      "summary": "1-3 sentences: most important data risks and why.",
+      "severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0},
+      "findings": [
+        {
+          "id": "DATA-001",
+          "title": "Short title",
+          "severity": "critical|high|medium|low|info",
+          "file": "path/to/file",
+          "description": "What changed and why this is a data reliability/performance/compliance risk",
+          "recommendation": "Concrete fix or mitigation",
+          "verification": "How to validate fix (query plan, test, backfill check, monitor)"
+        }
+      ]
+    }
+
+    RULES:
+    - Prioritize changed files and changed pipelines
+    - Include project-wide context only when it materially affects changed code
+    - ID prefix must be DATA-
+    - severity_counts must match findings
+    - If no data engineering risk found, return empty findings with info summary
+    - Output must be valid JSON
+    - Final response must be JSON only (no markdown, no prose, no code fences)
+
+  expected_output: |
+    "Data engineering review complete: data_engineering_review.json written with [N] findings"

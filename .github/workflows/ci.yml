@@ -1,0 +1,184 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: write
+  checks: write
+  pull-requests: write
+  deployments: write
+  issues: write
+
+jobs:
+  validate-environment:
+    name: Validate / Environment
+    uses: ./.github/workflows/validate-environment-reusable.yml
+    secrets: inherit
+
+  core-ci:
+    name: Validate / Core CI
+    uses: ./.github/workflows/format-lint-reusable.yml
+    secrets: inherit
+
+  validate:
+    name: Validate
+    needs: [validate-environment, core-ci]
+    if: |
+      always() &&
+      needs.validate-environment.result == 'success' &&
+      (needs.core-ci.result == 'success' || needs.core-ci.result == 'failure')
+    runs-on: ubuntu-latest
+    outputs:
+      final-commit-sha: ${{ steps.resolve_commit.outputs.sha }}
+      core_ci_result: ${{ steps.resolve_commit.outputs.core_ci_result }}
+    steps:
+      - name: Resolve commit for downstream stages
+        id: resolve_commit
+        run: |
+          echo "sha=${{ needs.core-ci.outputs.final-commit-sha }}" >> "$GITHUB_OUTPUT"
+          echo "core_ci_result=${{ needs.core-ci.result }}" >> "$GITHUB_OUTPUT"
+      - name: Stage summary
+        run: |
+          echo "## ✅ Validate Environment" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- validate-environment: ${{ needs.validate-environment.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- core-ci: ${{ needs.core-ci.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- final commit sha: ${{ needs.core-ci.outputs.final-commit-sha }}" >> "$GITHUB_STEP_SUMMARY"
+
+  test-docs-links:
+    name: Test-Build / Docs Links
+    needs: [validate]
+    if: |
+      always() &&
+      needs.validate.result == 'success'
+    uses: ./.github/workflows/link-check-reusable.yml
+    with:
+      commit_sha: ${{ needs.validate.outputs.final-commit-sha }}
+    secrets: inherit
+
+  test-crewai:
+    name: Test-Build / CrewAI
+    needs: [validate]
+    if: |
+      always() &&
+      needs.validate.result == 'success'
+    uses: ./.github/workflows/test-crewai-reusable.yml
+    with:
+      commit_sha: ${{ needs.validate.outputs.final-commit-sha }}
+    secrets: inherit
+
+  test-website:
+    name: Test-Build / Website
+    needs: [validate]
+    if: |
+      always() &&
+      needs.validate.result == 'success'
+    uses: ./.github/workflows/website-test-build-reusable.yml
+    with:
+      commit_sha: ${{ needs.validate.outputs.final-commit-sha }}
+    secrets: inherit
+
+  test-build:
+    name: Test-Build
+    needs: [validate, test-docs-links, test-crewai, test-website]
+    if: |
+      always() &&
+      needs.validate.result == 'success' &&
+      needs.test-docs-links.result == 'success' &&
+      needs.test-crewai.result == 'success' &&
+      needs.test-website.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stage summary
+        run: |
+          echo "## ✅ Test & Build" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- test-docs-links: ${{ needs.test-docs-links.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- test-crewai: ${{ needs.test-crewai.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- test-website: ${{ needs.test-website.result }}" >> "$GITHUB_STEP_SUMMARY"
+
+  deploy-preview:
+    name: Deploy / Preview
+    needs: [test-build]
+    if: |
+      github.event_name == 'pull_request' &&
+      needs.test-build.result == 'success' &&
+      contains(github.event.pull_request.labels.*.name, 'Deploy: Website Preview')
+    uses: ./.github/workflows/preview-deploy-reusable.yml
+    with:
+      workspace: website
+      build_artifact: website-build
+      pr_number: ${{ github.event.pull_request.number }}
+      head_ref: ${{ github.event.pull_request.head.ref }}
+    secrets: inherit
+
+  deploy-production:
+    name: Deploy / Production
+    needs: [test-build]
+    if: |
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      needs.test-build.result == 'success' &&
+      contains(github.event.head_commit.message, 'Merge pull request')
+    uses: ./.github/workflows/production-deploy-reusable.yml
+    with:
+      workspace: website
+      build_artifact: website-build
+    secrets: inherit
+
+  deploy:
+    name: Deploy
+    needs: [test-build, deploy-preview, deploy-production]
+    if: |
+      always() &&
+      needs.test-build.result == 'success' &&
+      (needs.deploy-preview.result == 'success' || needs.deploy-preview.result == 'skipped') &&
+      (needs.deploy-production.result == 'success' || needs.deploy-production.result == 'skipped')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stage summary
+        run: |
+          echo "## ✅ Deploy" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- deploy-preview: ${{ needs.deploy-preview.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- deploy-production: ${{ needs.deploy-production.result }}" >> "$GITHUB_STEP_SUMMARY"
+
+  crewai-review:
+    name: CrewAI / Review
+    needs:
+      [
+        validate-environment,
+        core-ci,
+        validate,
+        test-docs-links,
+        test-crewai,
+        test-website,
+        test-build,
+        deploy-preview,
+        deploy-production,
+        deploy,
+      ]
+    if: |
+      always() &&
+      github.event_name == 'pull_request' &&
+      !github.event.pull_request.draft
+    uses: ./.github/workflows/crewai-review-reusable.yml
+    with:
+      pr_number: ${{ github.event.pull_request.number }}
+      commit_sha:
+        ${{ needs.validate.outputs.final-commit-sha ||
+        github.event.pull_request.head.sha || github.sha }}
+      core_ci_result:
+        ${{ needs.validate.outputs.core_ci_result || needs.core-ci.result ||
+        'unknown' }}
+    secrets:
+      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+      NVIDIA_NIM_API_KEY: ${{ secrets.NVIDIA_NIM_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}

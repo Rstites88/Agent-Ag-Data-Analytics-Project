@@ -1,0 +1,164 @@
+# Marketing review — 3-agent global GTM pipeline
+# brand_editor → global_market_strategist → growth_compliance_reviewer
+
+analyze_brand_copy:
+  description: |
+    Review user-facing copy for brand consistency, messaging quality, and claims safety.
+
+    STEP 1: Read inputs
+    - WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - WorkspaceTool(operation="read", filename="diff_context.json", content="")
+    - WorkspaceTool(operation="read", filename="changed_files_index.json", content="")
+      (if it exists)
+
+    STEP 1b: Selective GTM context gathering
+    - Use CommitInfoTool(commit_sha=<head sha>, repository=<repo>) to understand latest branch messaging intent
+    - Use RelatedFilesTool(changed_files=[...], repository=<workspace path>) to locate impacted user-facing flows
+    - Use FileContentTool(file_path=<target>, repository=<repo>, ref="HEAD") for targeted copy and UX validation
+
+    STEP 2: Analyze brand and copy quality
+    Focus on CHANGED user-facing text. Check for:
+    - Inconsistent product naming or terminology across pages
+    - Unsubstantiated claims ("best", "fastest", "#1", "guaranteed") that create FTC risk
+    - Unclear value propositions or benefit statements
+    - Jargon or technical language in user-facing contexts
+    - Tone inconsistency across pages or components
+    - Missing or misleading CTAs (calls to action)
+    - Error messages that blame the user or lack actionable guidance
+    - Placeholder text left in production (Lorem ipsum, TODO, TBD)
+    - SEO concerns (missing meta descriptions, poor heading hierarchy)
+    - Testimonial or endorsement claims without proper disclaimers
+    - Price presentation issues (hidden fees, unclear terms, bait-and-switch risk)
+    - Localization readiness (hardcoded strings, culture-specific idioms, date/number formats)
+    - Accessibility of marketing text (reading level, plain language, screen reader friendliness)
+
+    STEP 3: Write intermediate output
+    WorkspaceTool(operation="write", filename="brand_analysis.json", content=<JSON>)
+
+    Schema:
+    {
+      "copy_findings": [
+        {"id": "MKT-COPY-001", "title": "...", "severity": "...", "file": "...",
+         "category": "claims|terminology|localization|accessibility|cta|tone",
+         "current_text": "...", "suggested_text": "...",
+         "description": "...", "recommendation": "..."}
+      ],
+      "localization_gaps": [],
+      "hardcoded_strings_count": 0,
+      "claims_requiring_substantiation": []
+    }
+  expected_output: |
+    "Brand copy analysis complete: brand_analysis.json written"
+
+analyze_global_market:
+  description: |
+    Evaluate changes for international market readiness and GTM strategy.
+
+    STEP 1: Read inputs
+    - WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - WorkspaceTool(operation="read", filename="brand_analysis.json", content="")
+
+    STEP 2: Analyze global market readiness
+    Evaluate changes against multi-region GTM requirements:
+
+    LOCALIZATION & i18n:
+    - Hardcoded strings that need externalization for translation
+    - Date, time, number, and currency formatting (not locale-aware)
+    - Right-to-left (RTL) layout support for Arabic, Hebrew, Farsi markets
+    - Character encoding issues (CJK, Cyrillic, Devanagari, Arabic scripts)
+    - Cultural sensitivity (colors, icons, imagery, metaphors that fail internationally)
+    - Text expansion/contraction space (German +30%, Japanese -50%)
+
+    REGIONAL PRICING & PAYMENTS:
+    - PPP-adjusted pricing considerations for emerging markets
+    - Regional payment method support (Boleto BR, iDEAL NL, Paytm IN, M-Pesa KE, OXXO MX)
+    - Multi-currency display and checkout flows
+    - Tax calculation requirements by jurisdiction (VAT, GST, Sales Tax, IVA)
+    - Auto-renewal and subscription compliance (CA Auto-Renewal Law, EU Consumer Rights Directive)
+
+    ADVERTISING & COMPLIANCE BY REGION:
+    - US: FTC Endorsement Guides, CAN-SPAM, TCPA
+    - Canada: CASL (anti-spam), Competition Act, bilingual requirements (QC)
+    - EU: GDPR consent for marketing, ePrivacy Directive, Unfair Commercial Practices Directive
+    - UK: ASA CAP Code, PECR, Consumer Rights Act 2015
+    - LATAM: Brazil (CDC consumer code), Mexico (LFPC), Argentina (consumer protection law)
+    - APAC: Japan (Act Against Unjustifiable Premiums), Australia (ACL), India (Consumer Protection Act)
+    - MEA: UAE Consumer Protection Law, Saudi (CITC regulations)
+
+    CHANNEL STRATEGY:
+    - App store compliance (Apple/Google guidelines for in-app purchases, subscriptions)
+    - Partner-led vs PLG vs sales-led indicators by market
+    - API/integration marketplace readiness
+
+    STEP 3: Write intermediate output
+    WorkspaceTool(operation="write", filename="global_market_analysis.json", content=<JSON>)
+
+    Schema:
+    {
+      "localization_findings": [],
+      "pricing_findings": [],
+      "compliance_by_region": [
+        {"id": "MKT-GTM-001", "title": "...", "severity": "...",
+         "regions": ["EU", "UK"], "regulation": "...",
+         "description": "...", "recommendation": "..."}
+      ],
+      "market_readiness_score": {"US": "high", "EU": "medium", "APAC": "low"},
+      "payment_method_gaps": [],
+      "i18n_issues_count": 0
+    }
+  expected_output: |
+    "Global market analysis complete: global_market_analysis.json written"
+
+synthesize_marketing_review:
+  description: |
+    Synthesize brand and global market analyses into final marketing_review.json.
+
+    STEP 1: Read all upstream analyses
+    - WorkspaceTool(operation="read", filename="brand_analysis.json", content="")
+    - WorkspaceTool(operation="read", filename="global_market_analysis.json", content="")
+
+    STEP 2: Apply marketing compliance overlay
+    For each finding from upstream, check:
+    - FTC compliance (testimonials, endorsements, "free" claims, native advertising)
+    - CAN-SPAM/CASL compliance (if email/notification features changed)
+    - GDPR marketing consent (opt-in required, no pre-checked boxes)
+    - California Auto-Renewal Law (clear disclosure, easy cancellation)
+    - EU Consumer Rights Directive (14-day cooling-off, pre-contractual info)
+    - Dark pattern detection (misleading CTAs, confirm-shaming, forced continuity)
+    - Comparative advertising rules (varies by jurisdiction)
+    - Influencer/affiliate disclosure requirements
+
+    STEP 3: Merge, deduplicate, and write final output
+    WorkspaceTool(operation="write", filename="marketing_review.json", content=<JSON>)
+
+    Output schema (MUST match exactly):
+    {
+      "summary": "1-3 sentences: top marketing risks and opportunities.",
+      "severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0},
+      "findings": [
+        {
+          "id": "MKT-001",
+          "title": "Short title",
+          "severity": "critical|high|medium|low|info",
+          "file": "path/to/file",
+          "description": "What marketing issue, which markets affected",
+          "recommendation": "Specific fix with regional context",
+          "verification": "How to confirm the fix"
+        }
+      ]
+    }
+
+    RULES:
+    - severity_counts MUST match actual findings list
+    - Deduplicate across upstream analyses
+    - Include affected regions in description
+    - Prioritize changed content and recent commits; include unchanged files only when needed to validate cross-page consistency
+    - Output must be valid JSON
+    - Final response must be JSON only (no markdown, no prose, no code fences)
+
+  expected_output: |
+    "Marketing review synthesis complete: marketing_review.json written with [N] findings"

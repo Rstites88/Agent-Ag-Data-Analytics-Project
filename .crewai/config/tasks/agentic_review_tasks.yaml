@@ -1,0 +1,68 @@
+review_agentic_consistency:
+  description: |
+    Verify changes comply with AGENTS.md conventions and agentic playbook rules.
+
+    STEP 1: Read the diff and agentic context
+    - Call WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - Call WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - Call WorkspaceTool(operation="read", filename="diff_context.json", content="")
+      (if it exists)
+    - Call WorkspaceTool(operation="read", filename="changed_files_index.json", content="")
+      (if it exists)
+
+    STEP 1b: Selective convention trace
+    - Use RelatedFilesTool(changed_files=[...], repository=<workspace path>) to locate impacted agentic standards
+    - Use FileContentTool(file_path=<target>, repository=<repo>, ref="HEAD") to verify current convention text
+    - Use FileContentTool(file_path=<target>, repository=<repo>, ref=<merge_base>) when regression against baseline matters
+
+    STEP 2: Check agentic convention compliance
+    Focus on CHANGED files. Check for:
+    - AGENTS.md references that are now stale or incorrect
+    - Agentic instruction files that contradict each other
+    - Crew configuration changes that break existing patterns
+    - Missing or incorrect file organization per agentic/file_organization.md
+    - Task YAML changes that deviate from established schema
+    - Agent backstory or goal changes that conflict with crew purpose
+    - Workflow changes not reflected in documentation
+    - Tool registrations that bypass the established pattern
+    - Environment variable additions not documented in .env.example
+    - New files placed in wrong directories per project conventions
+    - Commit message format violations (scoped conventional commits)
+    - PR record or issue record format violations
+
+    For each finding, cite:
+    - The specific rule or convention being violated
+    - The file and line where the violation occurs
+    - The correct convention with a reference
+
+    STEP 3: Write structured output
+    Call WorkspaceTool(operation="write", filename="agentic_consistency_review.json", content=<JSON>)
+
+    Output schema:
+    {
+      "summary": "1-3 sentences: what matters most and why.",
+      "severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0},
+      "findings": [
+        {
+          "id": "AGENT-001",
+          "title": "Short title",
+          "severity": "critical|high|medium|low|info",
+          "file": "path/to/file",
+          "description": "Rule violated + evidence from the diff",
+          "recommendation": "Specific fix to restore compliance",
+          "verification": "How to confirm the convention is now met"
+        }
+      ]
+    }
+
+    RULES:
+    - Prioritize CHANGED files and adjacent convention files; include unchanged files only when they create contradictions
+    - ID prefix must be AGENT-
+    - severity_counts must match the actual findings list
+    - Each finding must cite a specific convention or rule
+    - Output must be valid JSON
+    - Final response must be JSON only (no markdown, no prose, no code fences)
+
+  expected_output: |
+    "Agentic review complete: agentic_consistency_review.json written with [N] findings"

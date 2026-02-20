@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Project placeholder — replace this with your own website."
+    />
+    <title>Your Project — Placeholder</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="top-nav">
+      <a href="/" class="nav-logo">Project Template</a>
+      <a href="/login.html" class="btn btn-secondary btn-sm">Sign In</a>
+    </nav>
+    <div class="container">
+      <!-- Hero Section -->
+      <header class="hero">
+        <div class="badge">📦 Template Repository</div>
+        <h1 class="hero-title">
+          This Is <span class="gradient-text">Not</span> Your Website
+          <span class="hero-subtitle-main"
+            >It's a placeholder. Replace it with yours.</span
+          >
+        </h1>
+        <p class="hero-description">
+          This static site ships with the project template so your CI/CD
+          pipeline has something to build, test, and deploy from day one. Swap
+          this out with your actual website whenever you're ready.
+        </p>
+        <div class="cta-group">
+          <a href="#whats-included" class="btn btn-primary">
+            What's Included ↓
+          </a>
+          <a href="#getting-started" class="btn btn-secondary">
+            Getting Started →
+          </a>
+        </div>
+      </header>
+
+      <!-- What's Included -->
+      <section id="whats-included" class="features-section">
+        <h2 class="section-title">✨ What This Template Gives You</h2>
+        <p class="section-intro">
+          A production-grade monorepo with agentic development standards,
+          AI-powered code review, and automated CI/CD — ready to go.
+        </p>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>AI Code Review</h3>
+            <p>
+              CrewAI-powered multi-agent review system runs on every PR.
+              Analyzes diffs, detects issues, and posts findings to GitHub
+              Actions. Learns from your feedback over time.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3>CI/CD Pipeline</h3>
+            <p>
+              Phase-based GitHub Actions: format &amp; lint (auto-fix), test,
+              build, deploy preview, deploy production, AI review. All reusable
+              workflows.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3>Agentic Framework</h3>
+            <p>
+              Complete agent operating system: AGENTS.md entry point, style
+              guides, templates, ADRs, autonomy boundaries. Agents read these
+              and follow your standards.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📦</div>
+            <h3>Everything is Code</h3>
+            <p>
+              PRs, issues, and kanban boards managed as markdown files in
+              <code>docs/</code>. Version-controlled, searchable, portable.
+              GitHub is the comment layer, not the source of truth.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🧠</div>
+            <h3>Review Memory</h3>
+            <p>
+              The AI review crew remembers your preferences across runs. Tell it
+              "stop flagging X" and it won't flag it again. JSON-in-repo by
+              default, mem0 Cloud optional.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3>Cloudflare Deploy</h3>
+            <p>
+              Preview deploys on labeled PRs, production deploy on merge to
+              main. Cloudflare Pages with custom domains. Free tier covers most
+              projects.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Getting Started -->
+      <section id="getting-started" class="process-section">
+        <h2 class="section-title">📋 Getting Started</h2>
+        <p class="section-intro">
+          Fork this template, add your secrets, and start building.
+        </p>
+
+        <div class="process-grid">
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <h3>Fork or Clone</h3>
+            <p>Use as template</p>
+            <p class="step-detail">Click "Use this template" on GitHub</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <h3>Add Secrets</h3>
+            <p>5 minutes</p>
+            <p class="step-detail">
+              See SECRETS.md — add your API keys to GitHub
+            </p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <h3>Customize</h3>
+            <p>Search CUSTOMIZE</p>
+            <p class="step-detail">
+              Find all
+              <!-- CUSTOMIZE -->
+              markers and fill in your details
+            </p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">4</div>
+            <h3>Replace This Site</h3>
+            <p>When ready</p>
+            <p class="step-detail">Swap apps/web/ with your actual site</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">5</div>
+            <h3>Open a PR</h3>
+            <p>See it work</p>
+            <p class="step-detail">
+              CI runs, AI reviews your code, deploys preview
+            </p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">6</div>
+            <h3>Ship It</h3>
+            <p>Merge to main</p>
+            <p class="step-detail">Production deploy, review memory updates</p>
+          </div>
+        </div>
+        <div class="process-total">
+          From fork to first deploy in under 30 minutes
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta-section">
+        <h2>Ready to Build?</h2>
+        <p>
+          Delete this placeholder, add your code, and let the AI review crew
+          handle the rest.
+        </p>
+        <a href="https://github.com" class="btn btn-primary btn-large">
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+            />
+          </svg>
+          View on GitHub
+        </a>
+        <p class="cta-note">
+          This page is a placeholder. It exists so your CI/CD has something to
+          build.
+        </p>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>🔧 This is a template placeholder — replace with your website</p>
+        <div class="footer-links">
+          <a href="https://github.com">GitHub</a>
+          <span>•</span>
+          <a href="https://openrouter.ai">OpenRouter</a>
+          <span>•</span>
+          <a href="https://www.cloudflare.com">Cloudflare</a>
+          <span>•</span>
+          <a href="https://mem0.ai">mem0</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

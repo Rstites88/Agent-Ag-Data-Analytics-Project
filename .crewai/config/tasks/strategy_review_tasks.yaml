@@ -1,0 +1,187 @@
+# Strategy review — 3-agent global expansion pipeline
+# strategy_consultant → global_expansion_analyst → competitive_intel_analyst
+
+analyze_strategic_impact:
+  description: |
+    Evaluate changes for business impact, rollout risk, and strategic alignment.
+
+    STEP 1: Read inputs
+    - WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - WorkspaceTool(operation="read", filename="diff_context.json", content="")
+    - WorkspaceTool(operation="read", filename="quick_review.json", content="")
+      (if exists — leverage prior findings for strategic context)
+    - WorkspaceTool(operation="read", filename="changed_files_index.json", content="")
+      (if it exists)
+
+    STEP 1b: Selective strategic context gathering
+    - Use CommitInfoTool(commit_sha=<head sha>, repository=<repo>) to anchor recent business intent
+    - Use RelatedFilesTool(changed_files=[...], repository=<workspace path>) to identify adjacent product/system surfaces
+    - Use FileContentTool(file_path=<target>, repository=<repo>, ref="HEAD") for focused evidence checks
+    - Use CommitDiffTool(commit_sha=<recent commit>, repository=<repo>) for commit-level strategy deltas when needed
+
+    STEP 2: Analyze strategic impact of changed code
+
+    BUSINESS IMPACT:
+    - Revenue impact (pricing, billing, conversion, upsell flows affected?)
+    - Customer-facing risk (visible degradation, broken workflows, trust erosion?)
+    - Support burden (will this generate tickets, confusion, churn?)
+    - Competitive positioning (does this advance or retreat market position?)
+    - Unit economics (does this change CAC, LTV, gross margin?)
+
+    ROLLOUT RISK:
+    - Feature flag coverage (is this safely gated for progressive rollout?)
+    - Rollback complexity (how hard to undo? Data migration involved?)
+    - Blast radius (how many users/services affected if this breaks?)
+    - Cross-team dependencies (other teams blocked or affected?)
+    - Deployment sequence (does order matter? Blue-green? Canary?)
+
+    SECOND-ORDER EFFECTS:
+    - API contract changes that affect integrators and partners
+    - Performance changes that affect downstream services and SLAs
+    - Documentation debt that will compound
+    - Technical debt that constrains future pivots
+    - Talent/hiring implications (obscure tech stack choices)
+
+    STRATEGIC ALIGNMENT:
+    - Does this move toward stated product goals and OKRs?
+    - Is the scope appropriate or scope-creeping?
+    - Are there simpler alternatives that achieve the same outcome?
+    - Does this create vendor lock-in or reduce optionality?
+
+    STEP 3: Write intermediate output
+    WorkspaceTool(operation="write", filename="strategy_analysis.json", content=<JSON>)
+
+    Schema:
+    {
+      "impact_findings": [
+        {"id": "STRAT-BIZ-001", "title": "...", "severity": "...", "file": "...",
+         "category": "revenue|risk|support|competitive|alignment",
+         "description": "...", "recommendation": "...", "verification": "..."}
+      ],
+      "rollout_risk_score": "low|medium|high|critical",
+      "rollback_plan_exists": false,
+      "feature_flags_detected": false,
+      "blast_radius_estimate": "single_user|team|org|all_users"
+    }
+  expected_output: |
+    "Strategic impact analysis complete: strategy_analysis.json written"
+
+analyze_global_expansion:
+  description: |
+    Assess changes for international expansion readiness and multi-market operations.
+
+    STEP 1: Read inputs
+    - WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - WorkspaceTool(operation="read", filename="strategy_analysis.json", content="")
+
+    STEP 2: Analyze global expansion readiness
+
+    MULTI-MARKET ARCHITECTURE:
+    - Multi-tenant readiness (data isolation, tenant-aware queries, config per tenant)
+    - Multi-currency support (proper decimal handling, FX rate management, display formatting)
+    - Multi-language/locale support (i18n framework usage, externalized strings, RTL support)
+    - Multi-timezone handling (UTC storage, locale-aware display, scheduled job awareness)
+    - Multi-region infrastructure (data residency compliance, latency optimization, failover)
+
+    DATA RESIDENCY & SOVEREIGNTY:
+    - EU data must stay in EU (GDPR adequacy requirements)
+    - Russia Federal Law 242-FZ (data localization)
+    - China PIPL Article 40 (cross-border data transfer restrictions)
+    - India DPDP Act (data localization provisions)
+    - Brazil LGPD (transfer mechanisms)
+    - Regional database/storage selection implications
+
+    MARKET ENTRY BARRIERS:
+    - NAFTA/USMCA: Canada (bilingual requirements, CASL), Mexico (NOM standards, RFC tax ID)
+    - EU/EEA: Digital Services Act obligations, Digital Markets Act (if large platform), AI Act
+    - UK: Age Appropriate Design Code, Online Safety Act
+    - APAC: Japan (Act on Protection of Personal Information), Korea (PIPA location requirements),
+      India (UPI integration, RBI compliance for payments), Australia/NZ (CDR), China (ICP license, app store)
+    - LATAM: Brazil (PIX payments, CPF/CNPJ), Mexico (OXXO/SPEI), Argentina (currency controls)
+    - MEA: UAE (TDRA compliance), Saudi Arabia (CITC), Israel
+    - Africa: Nigeria (Paystack/Flutterwave), Kenya (M-Pesa), South Africa (POPIA)
+
+    REGIONAL PAYMENT INFRASTRUCTURE:
+    - Payment processor coverage (Stripe, Adyen, dLocal, Paystack, Razorpay, MercadoPago)
+    - Local payment method support by market
+    - Tax engine requirements (VAT MOSS, GST, Sales Tax nexus, IVA)
+    - Invoice/receipt requirements by jurisdiction
+
+    STEP 3: Write intermediate output
+    WorkspaceTool(operation="write", filename="expansion_analysis.json", content=<JSON>)
+
+    Schema:
+    {
+      "architecture_findings": [],
+      "data_residency_findings": [],
+      "market_entry_findings": [
+        {"id": "STRAT-EXP-001", "title": "...", "severity": "...",
+         "regions": ["EU", "LATAM"], "barrier_type": "regulatory|technical|payments|localization",
+         "description": "...", "recommendation": "...", "verification": "..."}
+      ],
+      "expansion_readiness": {"US": "high", "EU": "medium", "APAC": "low", "LATAM": "low"},
+      "payment_coverage_gaps": [],
+      "data_residency_compliant": false
+    }
+  expected_output: |
+    "Global expansion analysis complete: expansion_analysis.json written"
+
+synthesize_strategic_review:
+  description: |
+    Synthesize all strategy analyses into the final strategic_review.json.
+
+    STEP 1: Read all upstream analyses
+    - WorkspaceTool(operation="read", filename="strategy_analysis.json", content="")
+    - WorkspaceTool(operation="read", filename="expansion_analysis.json", content="")
+
+    STEP 2: Apply competitive intelligence overlay
+    For each finding from upstream, evaluate:
+    - Does this create defensible advantage (moat) or commoditize us?
+    - Does this enable future pivots or lock us into a path?
+    - How does this compare to known competitor capabilities?
+    - What does this signal to the market (customers, investors, talent)?
+    - Does this architecture choice constrain or enable M&A optionality?
+    - Is this a build-vs-buy decision that should be revisited?
+    - Does this create platform risk (dependency on single vendor)?
+
+    STEP 3: Merge, prioritize, and write final output
+    Combine strategic impact, expansion readiness, and competitive findings.
+    Assign severity based on business impact magnitude.
+    Use STRAT- prefix for all IDs. Renumber sequentially.
+
+    STEP 4: Write final output
+    WorkspaceTool(operation="write", filename="strategic_review.json", content=<JSON>)
+
+    Output schema (MUST match exactly):
+    {
+      "summary": "1-3 sentences: top strategic risks, expansion gaps, and competitive implications.",
+      "severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0},
+      "findings": [
+        {
+          "id": "STRAT-001",
+          "title": "Short title",
+          "severity": "critical|high|medium|low|info",
+          "file": "path/to/file",
+          "description": "Strategic concern, affected markets/regions, competitive context",
+          "recommendation": "Specific action with business justification",
+          "verification": "How to confirm the strategic concern is addressed"
+        }
+      ]
+    }
+
+    RULES:
+    - severity_counts MUST match actual findings list
+    - Deduplicate across upstream analyses
+    - Include affected regions and competitive context in descriptions
+    - Prioritize changed code and recent branch commits; include unchanged files only when they materially affect strategy outcomes
+    - Focus on actionable business insights, not code style
+    - Output must be valid JSON
+    - If changes are purely mechanical, return empty findings with info summary
+    - Final response must be JSON only (no markdown, no prose, no code fences)
+
+  expected_output: |
+    "Strategy review synthesis complete: strategic_review.json written with [N] findings"

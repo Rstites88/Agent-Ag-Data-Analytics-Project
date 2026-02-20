@@ -1,0 +1,35 @@
+{
+  "$schema": "./suppressions-schema.json",
+  "version": "1.0.0",
+  "description": "Review finding suppressions — patterns the team has explicitly marked as acceptable",
+  "suppressions": [
+    {
+      "id": "example-001",
+      "pattern": "hardcoded URL in example file",
+      "file_glob": "agentic/mermaid_diagrams/*.md",
+      "reason": "These are intentional documentation examples, not production code",
+      "added_by": "template",
+      "added_date": "2026-02-13",
+      "expires": null,
+      "active": true
+    },
+    {
+      "id": "sup-001",
+      "pattern": "placeholder api keys and tokens",
+      "file_glob": "*.env.example",
+      "reason": "Placeholder credentials in .env.example templates are acceptable when they are clearly fake and no real secrets are committed.",
+      "added_by": "memory-cli-bootstrap",
+      "added_date": "2026-02-15",
+      "expires": null,
+      "active": true
+    }
+  ],
+  "usage_notes": [
+    "Add entries here when the AI review flags something your team considers acceptable.",
+    "Use file_glob patterns to scope suppressions to specific files or directories.",
+    "Set 'expires' to an ISO date string to auto-expire temporary suppressions.",
+    "Set 'active' to false to disable without deleting (preserves history).",
+    "The review crew checks this file before reporting findings — suppressed items are filtered out.",
+    "This file is version-controlled: the team's review preferences are part of the project history."
+  ]
+}

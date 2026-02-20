@@ -1,0 +1,478 @@
+name: CrewAI / Review
+
+on:
+  workflow_call:
+    inputs:
+      pr_number:
+        description: 'Pull request number'
+        required: true
+        type: number
+      commit_sha:
+        description: 'Commit SHA to review'
+        required: true
+        type: string
+      core_ci_result:
+        description: 'Result of Core CI job (success/failure)'
+        required: true
+        type: string
+    secrets:
+      NVIDIA_API_KEY:
+        required: false
+      NVIDIA_NIM_API_KEY:
+        required: false
+      OPENROUTER_API_KEY:
+        required: true
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  crewai-review:
+    name: Execute CrewAI Review
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # ========================================
+      # STEP 1: Checkout FIRST (required for local action)
+      # ========================================
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 0
+
+      # ========================================
+      # STEP 2: Initialize log capture (AFTER checkout)
+      # ========================================
+      - name: Initialize job capture
+        uses: ./.github/actions/capture-job-output
+        with:
+          job-name: 'crewai-review'
+          mode: 'start'
+
+      # ========================================
+      # STEP 3: Log checkout completion
+      # ========================================
+      - name: Log checkout complete
+        run: |
+          echo "✅ Code checked out" | tee -a .crewai-job-output/current-job.log
+          echo "  Repository: ${{ github.repository }}" | tee -a .crewai-job-output/current-job.log
+          echo "  Commit: ${{ inputs.commit_sha }}" | tee -a .crewai-job-output/current-job.log
+          echo "" | tee -a .crewai-job-output/current-job.log
+
+      # ========================================
+      # STEP 4: Prepare PR data with logging
+      # ========================================
+      - name: Prepare PR data using local git
+        working-directory: .crewai
+        run: |
+          set -e
+
+          echo "📦 Preparing PR data using LOCAL GIT (no API calls)" | tee -a ../.crewai-job-output/current-job.log
+          echo "" | tee -a ../.crewai-job-output/current-job.log
+
+          mkdir -p workspace
+
+          # Get base and head refs from github.event context
+          BASE_REF="${{ github.event.pull_request.base.ref }}"
+          HEAD_REF="${{ github.event.pull_request.head.ref }}"
+
+          # Fallback to main if empty
+          if [ -z "$BASE_REF" ]; then
+            BASE_REF="main"
+            echo "⚠️ BASE_REF empty, defaulting to main" | tee -a ../.crewai-job-output/current-job.log
+          fi
+
+          echo "📍 Base: $BASE_REF, Head: $HEAD_REF" | tee -a ../.crewai-job-output/current-job.log
+          echo "📍 Commit SHA: ${{ inputs.commit_sha }}" | tee -a ../.crewai-job-output/current-job.log
+
+          # Fetch base branch
+          echo "🔄 Fetching base branch: $BASE_REF" | tee -a ../.crewai-job-output/current-job.log
+          git fetch origin "$BASE_REF:$BASE_REF" 2>&1 | tee -a ../.crewai-job-output/current-job.log || \
+            git fetch origin "$BASE_REF" 2>&1 | tee -a ../.crewai-job-output/current-job.log || \
+            echo "⚠️ Could not fetch $BASE_REF" | tee -a ../.crewai-job-output/current-job.log
+
+          # Generate PR diff using git
+          echo "📝 Generating PR diff: origin/$BASE_REF...${{ inputs.commit_sha }}" | tee -a ../.crewai-job-output/current-job.log
+          git diff "origin/$BASE_REF...${{ inputs.commit_sha }}" > workspace/diff.txt 2>/dev/null || \
+            git diff "$BASE_REF...${{ inputs.commit_sha }}" > workspace/diff.txt
+
+          MERGE_BASE=$(git merge-base "origin/$BASE_REF" "${{ inputs.commit_sha }}" 2>/dev/null || \
+                      git merge-base "$BASE_REF" "${{ inputs.commit_sha }}" 2>/dev/null || \
+                      echo "")
+
+          DIFF_SIZE=$(wc -c < workspace/diff.txt)
+          echo "✅ PR diff saved: $DIFF_SIZE bytes" | tee -a ../.crewai-job-output/current-job.log
+
+          # Fallback for small diffs
+          if [ "$DIFF_SIZE" -lt 100 ]; then
+            echo "⚠️ Diff suspiciously small, trying merge-base..." | tee -a ../.crewai-job-output/current-job.log
+            if [ -n "$MERGE_BASE" ]; then
+              git diff "$MERGE_BASE...${{ inputs.commit_sha }}" > workspace/diff.txt
+              DIFF_SIZE=$(wc -c < workspace/diff.txt)
+              echo "✅ Fallback diff: $DIFF_SIZE bytes" | tee -a ../.crewai-job-output/current-job.log
+            fi
+          fi
+
+          # Calculate diff stats
+          echo "📊 Calculating stats..." | tee -a ../.crewai-job-output/current-job.log
+          DIFF_STATS=$(git diff --stat "origin/$BASE_REF...${{ inputs.commit_sha }}" 2>/dev/null || \
+                      git diff --stat "$BASE_REF...${{ inputs.commit_sha }}")
+
+          FILES_CHANGED=$(echo "$DIFF_STATS" | tail -n 1 | grep -oE '^[[:space:]]*[0-9]+' | tr -d ' ' || echo "0")
+          ADDITIONS=$(echo "$DIFF_STATS" | tail -n 1 | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo "0")
+          DELETIONS=$(echo "$DIFF_STATS" | tail -n 1 | grep -oE '[0-9]+ deletion' | grep -oE '[0-9]+' || echo "0")
+
+          FILES_CHANGED=${FILES_CHANGED:-0}
+          ADDITIONS=${ADDITIONS:-0}
+          DELETIONS=${DELETIONS:-0}
+
+          echo "📊 Stats: $FILES_CHANGED files, +$ADDITIONS/-$DELETIONS" | tee -a ../.crewai-job-output/current-job.log
+
+          # Extract commits
+          echo "📚 Getting commits..." | tee -a ../.crewai-job-output/current-job.log
+          git log --format='%H|%s|%an|%ae|%aI' --no-merges "origin/$BASE_REF..${{ inputs.commit_sha }}" > /tmp/commits.txt 2>/dev/null || \
+            git log --format='%H|%s|%an|%ae|%aI' --no-merges "$BASE_REF..${{ inputs.commit_sha }}" > /tmp/commits.txt 2>/dev/null || \
+            echo "" > /tmp/commits.txt
+
+          # Build commits JSON
+          echo '[]' > workspace/commits.json
+          if [ -s /tmp/commits.txt ]; then
+            while IFS='|' read -r sha message author_name author_email author_date; do
+              STATS=$(git show --stat --format='' "$sha" 2>/dev/null | tail -n 1 || echo "")
+              COMMIT_ADDITIONS=$(echo "$STATS" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo 0)
+              COMMIT_DELETIONS=$(echo "$STATS" | grep -oE '[0-9]+ deletion' | grep -oE '[0-9]+' || echo 0)
+              COMMIT_FILES=$(echo "$STATS" | grep -oE '^[[:space:]]*[0-9]+' | tr -d ' ' || echo 0)
+
+              jq -n \
+                --arg sha "${sha:0:8}" \
+                --arg message "$message" \
+                --arg author_name "$author_name" \
+                --arg author_email "$author_email" \
+                --arg author_date "$author_date" \
+                --argjson additions "${COMMIT_ADDITIONS:-0}" \
+                --argjson deletions "${COMMIT_DELETIONS:-0}" \
+                --argjson files "${COMMIT_FILES:-0}" \
+                '{
+                  "sha": $sha,
+                  "message": $message,
+                  "author": {"name": $author_name, "email": $author_email, "date": $author_date},
+                  "stats": {"additions": $additions, "deletions": $deletions, "files_changed": $files}
+                }' > /tmp/commit.json
+
+              jq '. += [input]' workspace/commits.json /tmp/commit.json > /tmp/commits_new.json
+              mv /tmp/commits_new.json workspace/commits.json
+            done < /tmp/commits.txt
+          fi
+
+          COMMIT_COUNT=$(jq '. | length' workspace/commits.json)
+          echo "✅ Saved $COMMIT_COUNT commits" | tee -a ../.crewai-job-output/current-job.log
+
+          git log --oneline -5 "origin/$BASE_REF..${{ inputs.commit_sha }}" > workspace/commit_messages.txt 2>/dev/null || \
+            git log --oneline -5 "$BASE_REF..${{ inputs.commit_sha }}" > workspace/commit_messages.txt 2>/dev/null || \
+            echo "${{ inputs.commit_sha }} local review context" > workspace/commit_messages.txt
+
+          # Get labels from context
+          PR_LABELS="${{ join(github.event.pull_request.labels.*.name, ',') }}"
+          echo "🏷️ Labels: $PR_LABELS" | tee -a ../.crewai-job-output/current-job.log
+
+          FILE_LIST=$(git diff --name-only "origin/$BASE_REF...${{ inputs.commit_sha }}" 2>/dev/null || \
+                     git diff --name-only "$BASE_REF...${{ inputs.commit_sha }}" 2>/dev/null || \
+                     echo "")
+
+          FILE_LIST_JSON=$(echo "$FILE_LIST" | python3 -c "import json,sys; print(json.dumps([l for l in sys.stdin.read().strip().split('\n') if l]))")
+          LABELS_JSON=$(echo "$PR_LABELS" | python3 -c "import json,sys; print(json.dumps([l for l in sys.stdin.read().strip().split(',') if l]))")
+
+          jq -n \
+            --argjson pr_number "${{ inputs.pr_number }}" \
+            --arg commit_sha "${{ inputs.commit_sha }}" \
+            --arg base_ref "$BASE_REF" \
+            --arg head_ref "$HEAD_REF" \
+            --argjson labels "$LABELS_JSON" \
+            --argjson files_changed "$FILES_CHANGED" \
+            --argjson additions "$ADDITIONS" \
+            --argjson deletions "$DELETIONS" \
+            --argjson file_list "$FILE_LIST_JSON" \
+            '{
+              "pr_number": $pr_number,
+              "commit_sha": $commit_sha,
+              "base_ref": $base_ref,
+              "head_ref": $head_ref,
+              "labels": $labels,
+              "files_changed": $files_changed,
+              "additions": $additions,
+              "deletions": $deletions,
+              "total_changes": ($additions + $deletions),
+              "file_list": $file_list
+            }' > workspace/diff.json
+
+          jq -n \
+            --arg contract_version "2026-02-14" \
+            --arg tier "branch" \
+            --arg diff_strategy "origin-base-merge-base" \
+            --arg base_ref "origin/$BASE_REF" \
+            --arg head_ref "$HEAD_REF" \
+            --arg head_sha "${{ inputs.commit_sha }}" \
+            --arg merge_base "$MERGE_BASE" \
+            '{
+              "contract_version": $contract_version,
+              "tier": $tier,
+              "diff_strategy": $diff_strategy,
+              "base_ref": $base_ref,
+              "head_ref": $head_ref,
+              "head_sha": $head_sha,
+              "merge_base": $merge_base
+            }' > workspace/scope.json
+
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          workspace = Path("workspace")
+
+          def load_json(path: Path):
+              if not path.exists():
+                  return {}
+              try:
+                  return json.loads(path.read_text())
+              except Exception:
+                  return {}
+
+          diff_text = (workspace / "diff.txt").read_text() if (workspace / "diff.txt").exists() else ""
+          if len(diff_text) > 12000:
+              diff_excerpt = diff_text[:7000] + "\n...\n" + diff_text[-5000:]
+          else:
+              diff_excerpt = diff_text
+
+          scope = load_json(workspace / "scope.json")
+          commits = load_json(workspace / "commits.json")
+          diff_meta = load_json(workspace / "diff.json")
+
+          scope = scope if isinstance(scope, dict) else {}
+          diff_meta = diff_meta if isinstance(diff_meta, dict) else {}
+
+          commit_messages = []
+          if isinstance(commits, dict):
+              raw_messages = commits.get("commit_messages", [])
+              if isinstance(raw_messages, list):
+                  commit_messages = [str(m) for m in raw_messages if str(m).strip()]
+          elif isinstance(commits, list):
+              for entry in commits:
+                  if isinstance(entry, dict):
+                      msg = str(entry.get("message", "")).strip()
+                      if msg:
+                          commit_messages.append(msg)
+                  else:
+                      text = str(entry).strip()
+                      if text:
+                          commit_messages.append(text)
+
+          pack = {
+              "contract_version": "2026-02-14",
+              "purpose": "compact_review_context",
+              "scope": scope,
+              "commit_messages": commit_messages,
+              "diff_meta": {
+                  "files_changed": diff_meta.get("files_changed", 0),
+                  "additions": diff_meta.get("additions", 0),
+                  "deletions": diff_meta.get("deletions", 0),
+                  "labels": diff_meta.get("labels", []),
+              },
+              "diff_excerpt": diff_excerpt,
+          }
+
+          (workspace / "context_pack.json").write_text(json.dumps(pack, indent=2))
+
+          lines = [
+              "# Context Pack",
+              "",
+              "## Scope",
+              "- Tier: " + str(scope.get("tier", "unknown")),
+              "- Diff strategy: " + str(scope.get("diff_strategy", "unknown")),
+              "- Base ref: " + str(scope.get("base_ref", "unknown")),
+              "- Merge base: " + str(scope.get("merge_base", "")),
+              "",
+              "## Commit messages",
+          ]
+          for msg in commit_messages[:8]:
+              lines.append("- " + str(msg))
+
+          lines.extend([
+              "",
+              "## Diff excerpt",
+              "[DIFF BEGIN]",
+              diff_excerpt,
+              "[DIFF END]",
+          ])
+
+          (workspace / "context_pack.md").write_text("\n".join(lines))
+          PY
+
+          echo "✅ Metadata saved" | tee -a ../.crewai-job-output/current-job.log
+          echo "" | tee -a ../.crewai-job-output/current-job.log
+          echo "📋 Summary (LOCAL GIT - NO API):" | tee -a ../.crewai-job-output/current-job.log
+          echo "  - diff.txt: $DIFF_SIZE bytes" | tee -a ../.crewai-job-output/current-job.log
+          echo "  - commits.json: $COMMIT_COUNT commits" | tee -a ../.crewai-job-output/current-job.log
+          echo "  - diff.json: metadata" | tee -a ../.crewai-job-output/current-job.log
+          echo "  - scope.json: review scope contract" | tee -a ../.crewai-job-output/current-job.log
+          echo "  - context_pack.json/context_pack.md: compact shared context" | tee -a ../.crewai-job-output/current-job.log
+          echo "  - commit_messages.txt: quick-review commit context" | tee -a ../.crewai-job-output/current-job.log
+          echo "  - Stats: $FILES_CHANGED files, +$ADDITIONS/-$DELETIONS" | tee -a ../.crewai-job-output/current-job.log
+          echo "" | tee -a ../.crewai-job-output/current-job.log
+
+      # ========================================
+      # STEP 5: Download CI artifacts
+      # ========================================
+      - name: Download CI job outputs
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ci-job-output-*
+          path: ci-artifacts
+          merge-multiple: true
+        continue-on-error: true
+
+      - name: Log artifact download
+        run: |
+          echo "📥 Downloaded CI artifacts:" | tee -a .crewai-job-output/current-job.log
+          ls -la ci-artifacts 2>&1 | tee -a .crewai-job-output/current-job.log || echo "No artifacts" | tee -a .crewai-job-output/current-job.log
+          echo "" | tee -a .crewai-job-output/current-job.log
+
+      # ========================================
+      # STEP 6: Organize CI results
+      # ========================================
+      - name: Organize CI results in workspace
+        working-directory: .crewai
+        run: |
+          set -e
+
+          echo "📂 Organizing CI job data..." | tee -a ../.crewai-job-output/current-job.log
+          mkdir -p workspace/ci_results
+
+          # Check if artifacts were downloaded
+          if [ ! -d "../ci-artifacts" ]; then
+            echo "⚠️ No CI artifacts found - jobs may not have uploaded data" | tee -a ../.crewai-job-output/current-job.log
+            echo '{"run_id": ${{ github.run_id }}, "run_number": ${{ github.run_number }}, "jobs": []}' > workspace/ci_results/_job_index.json
+            echo "" | tee -a ../.crewai-job-output/current-job.log
+            exit 0
+          fi
+
+          # Move job folders to workspace
+          for job_folder in ../ci-artifacts/*/; do
+            if [ -d "$job_folder" ]; then
+              JOB_NAME=$(basename "$job_folder")
+              mv "$job_folder" "workspace/ci_results/$JOB_NAME" 2>/dev/null || true
+              echo "  Moved $JOB_NAME" | tee -a ../.crewai-job-output/current-job.log
+            fi
+          done
+
+          # Build job index from metadata files
+          echo '{"run_id": ${{ github.run_id }}, "run_number": ${{ github.run_number }}, "jobs": []}' > workspace/ci_results/_job_index.json
+
+          for metadata in workspace/ci_results/*/metadata.json; do
+            if [ -f "$metadata" ]; then
+              JOB_DATA=$(cat "$metadata")
+              jq --argjson job "$JOB_DATA" '.jobs += [$job]' workspace/ci_results/_job_index.json > /tmp/index_new.json
+              mv /tmp/index_new.json workspace/ci_results/_job_index.json
+              echo "  Added $(echo "$JOB_DATA" | jq -r '.job_name') to index" | tee -a ../.crewai-job-output/current-job.log
+            fi
+          done
+
+          JOB_COUNT=$(jq '.jobs | length' workspace/ci_results/_job_index.json)
+          echo "✅ Organized $JOB_COUNT jobs for analysis" | tee -a ../.crewai-job-output/current-job.log
+          echo "" | tee -a ../.crewai-job-output/current-job.log
+
+      # ========================================
+      # STEP 7: Setup Python with logging
+      # ========================================
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+          cache-dependency-path: '.crewai/pyproject.toml'
+
+      - name: Log Python setup
+        run: |
+          echo "✅ Python setup complete" | tee -a .crewai-job-output/current-job.log
+          python --version | tee -a .crewai-job-output/current-job.log
+          echo "" | tee -a .crewai-job-output/current-job.log
+
+      # ========================================
+      # STEP 8: Install dependencies with logging
+      # ========================================
+      - name: Install dependencies
+        working-directory: .crewai
+        run: |
+          echo "📦 Installing CrewAI dependencies..." | tee -a ../.crewai-job-output/current-job.log
+          python -m pip install --upgrade pip 2>&1 | tee -a ../.crewai-job-output/current-job.log
+          pip install -e . 2>&1 | tee -a ../.crewai-job-output/current-job.log
+          echo "" | tee -a ../.crewai-job-output/current-job.log
+
+      # ========================================
+      # STEP 9: Configure environment
+      # ========================================
+      - name: Configure environment
+        run: |
+          echo "🔧 Configuring environment..." | tee -a .crewai-job-output/current-job.log
+          echo "PR_NUMBER=${{ inputs.pr_number }}" >> $GITHUB_ENV
+          echo "COMMIT_SHA=${{ inputs.commit_sha }}" >> $GITHUB_ENV
+          echo "CORE_CI_RESULT=${{ inputs.core_ci_result }}" >> $GITHUB_ENV
+          echo "NVIDIA_API_KEY=${{ secrets.NVIDIA_API_KEY }}" >> $GITHUB_ENV
+          echo "NVIDIA_NIM_API_KEY=${{ secrets.NVIDIA_NIM_API_KEY }}" >> $GITHUB_ENV
+          echo "OPENROUTER_API_KEY=${{ secrets.OPENROUTER_API_KEY }}" >> $GITHUB_ENV
+          echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
+          echo "GITHUB_WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+          echo "" | tee -a .crewai-job-output/current-job.log
+
+      # ========================================
+      # STEP 10: Run CrewAI with full logging
+      # ========================================
+      - name: Run CrewAI code review
+        working-directory: .crewai
+        run: |
+          echo "🎬 Starting CrewAI orchestration..." | tee -a ../.crewai-job-output/current-job.log
+          echo "" | tee -a ../.crewai-job-output/current-job.log
+
+          # Run main.py with full output to both stdout and log
+          python main.py 2>&1 | tee -a ../.crewai-job-output/current-job.log
+
+      # ========================================
+      # STEP 11: Upload workspace artifacts with ABSOLUTE PATH
+      # ========================================
+      - name: Upload agent workspace artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name:
+            crewai-agent-workspace-pr${{ inputs.pr_number }}-${{ github.run_id
+            }}
+          path: ${{ github.workspace }}/.crewai/workspace/
+          retention-days: 7
+          if-no-files-found: warn
+          include-hidden-files: true
+
+      # ========================================
+      # STEP 12: Finalize log capture
+      # ========================================
+      - name: Finalize job capture
+        if: always()
+        uses: ./.github/actions/capture-job-output
+        with:
+          job-name: 'crewai-review'
+          job-conclusion: ${{ job.status }}
+          mode: 'finish'
+
+      # ========================================
+      # STEP 13: Upload job output artifacts with ABSOLUTE PATH
+      # ========================================
+      - name: Upload job output artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-job-output-crewai-review
+          path: ${{ github.workspace }}/.crewai-job-output/
+          retention-days: 7
+          if-no-files-found: warn
+          include-hidden-files: true

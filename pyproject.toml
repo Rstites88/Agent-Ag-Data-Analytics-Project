@@ -1,0 +1,50 @@
+[project]
+name = "agent-project"
+version = "0.1.0"
+description = "AGENTS.md-first agentic coding starter template with local/GitHub CI and optional deep specialist review"
+requires-python = ">=3.10,<=3.13"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+
+dependencies = [
+    "crewai>=0.86.0",
+    "crewai-tools>=0.12.0",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0.1",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.9.0",
+    "black>=24.0.0",
+]
+mem0 = [
+    "mem0ai>=0.1.0",
+]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = [".crewai/tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --cov=.crewai --cov-report=term-missing"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312", "py313"]

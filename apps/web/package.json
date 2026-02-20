@@ -1,0 +1,15 @@
+{
+  "name": "@template/web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Placeholder website — replace with your own",
+  "scripts": {
+    "dev": "npx serve public -p 8080",
+    "build": "echo 'Static site — no build step needed' && cp -r public dist",
+    "preview": "npx serve public -p 8080",
+    "test": "echo 'No tests configured yet'"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}

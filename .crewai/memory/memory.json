@@ -1,0 +1,19 @@
+{
+  "$schema": "./memory-schema.json",
+  "version": "1.0.0",
+  "description": "Persistent review memory — learned patterns and observations across CI runs",
+  "learned_patterns": [
+    {
+      "id": "pat-001",
+      "observation": "Do not flag placeholder secrets in .env.example files when values are clearly fake examples and no real credentials are present.",
+      "confidence": 1.0,
+      "source": "maintainer-policy",
+      "learned_date": "2026-02-15"
+    }
+  ],
+  "review_history": {
+    "total_reviews": 0,
+    "last_review": "",
+    "findings_trend": []
+  }
+}

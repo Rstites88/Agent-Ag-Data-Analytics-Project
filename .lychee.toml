@@ -1,0 +1,11 @@
+accept = ["200..=299", "429"]
+max_redirects = 10
+timeout = 20
+max_retries = 2
+retry_wait_time = 2
+scheme = ["https"]
+
+exclude = [
+  "^https://github.com/org/repo($|/)",
+  "^https://full-url/?$",
+]

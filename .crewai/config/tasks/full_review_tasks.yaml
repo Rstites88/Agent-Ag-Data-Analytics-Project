@@ -1,0 +1,166 @@
+full_technical_review:
+  description: |
+    Perform comprehensive technical review focusing on code quality,
+    design patterns, and maintainability.
+
+    WORKSPACE INPUTS (already cached — do NOT re-fetch):
+    - diff.txt: Full commit diff
+    - quick_review.json: Quick review findings (build on this, don't duplicate)
+    - ci_summary.json: CI context
+    - commits.json: Commit history
+    - scope.json: Merge-base scope contract for branch evolution context
+
+    STEPS:
+    1. WorkspaceTool(operation="read", filename="diff.txt", content="")
+    1b. WorkspaceTool(operation="read", filename="context_pack.md", content="")
+    2. WorkspaceTool(operation="read", filename="quick_review.json", content="")
+    3. WorkspaceTool(operation="read", filename="scope.json", content="")
+    3. Perform deep analysis on:
+       - Design quality (SOLID, DRY, separation of concerns)
+       - Error handling completeness and edge cases
+       - Performance implications (algorithmic complexity, caching)
+       - Maintainability (naming, structure, documentation)
+       - Testing coverage (are new features tested?)
+
+    AVOID DUPLICATING: Code style issues already in quick_review.json.
+
+    4. WorkspaceTool(operation="write", filename="code_quality_deep.json", content=<JSON>)
+
+    Output schema:
+    {
+      "quality_findings": [],
+      "performance_findings": [],
+      "testing_gaps": [],
+      "maintainability_findings": [],
+      "summary": "1-2 sentences"
+    }
+
+  expected_output: |
+    "Code quality deep review saved to code_quality_deep.json"
+
+architecture_review:
+  description: |
+    Evaluate architectural decisions, cross-cutting concerns, and
+    long-term maintainability implications.
+
+    WORKSPACE INPUTS:
+    - diff.txt: Full commit diff
+    - code_quality_deep.json: Code quality findings from prior task
+    - quick_review.json: Quick review findings
+    - scope.json: Branch evolution context and base reference
+
+    STEPS:
+    1. WorkspaceTool(operation="read", filename="diff.txt", content="")
+    1b. WorkspaceTool(operation="read", filename="context_pack.md", content="")
+    2. WorkspaceTool(operation="read", filename="code_quality_deep.json", content="")
+    3. WorkspaceTool(operation="read", filename="scope.json", content="")
+    3. Analyze for:
+       - Architectural pattern consistency (is this change following or breaking existing patterns?)
+       - Coupling and cohesion (are new dependencies tight or loose?)
+       - Breaking changes (API contracts, schema migrations, backwards compat)
+       - Dependency graph impact (which other modules are affected?)
+       - Scalability implications (will this work at 10x load?)
+       - Technical debt introduction or reduction
+       - Design pattern appropriateness (factory, strategy, observer, etc.)
+
+    4. WorkspaceTool(operation="write", filename="architecture_analysis.json", content=<JSON>)
+
+    Output schema:
+    {
+      "architecture_findings": [
+        {
+          "category": "coupling|cohesion|breaking_change|scalability|debt|pattern",
+          "severity": "critical|high|medium|low|info",
+          "file": "path/to/file",
+          "title": "Short title",
+          "description": "What the issue is and why it matters architecturally",
+          "suggestion": "Concrete refactoring approach",
+          "impact": "critical|high|medium|low"
+        }
+      ],
+      "affected_modules": [],
+      "breaking_changes_detected": false,
+      "summary": "1-2 sentences"
+    }
+
+  expected_output: |
+    "Architecture review saved to architecture_analysis.json"
+
+security_deep_dive:
+  description: |
+    Specialized security analysis focusing on OWASP Top 10 vulnerabilities
+    and attack surface assessment.
+
+    WORKSPACE INPUTS:
+    - diff.txt: Focus on lines added (new attack surface)
+    - quick_review.json: Basic security flags from quick review
+    - code_quality_deep.json: Quality findings that may have security implications
+    - scope.json: Merge-base scope contract
+
+    STEPS:
+    1. WorkspaceTool(operation="read", filename="diff.txt", content="")
+    1b. WorkspaceTool(operation="read", filename="context_pack.md", content="")
+    2. WorkspaceTool(operation="read", filename="quick_review.json", content="")
+    3. WorkspaceTool(operation="read", filename="scope.json", content="")
+    3. Perform OWASP Top 10 analysis:
+       - Injection (SQL, NoSQL, OS command, LDAP)
+       - Broken authentication (weak passwords, session issues)
+       - Sensitive data exposure (PII in logs, error messages, env vars)
+       - XML External Entities (XXE)
+       - Broken access control (missing auth checks, IDOR)
+       - Security misconfiguration (debug mode, default creds, open CORS)
+       - Cross-Site Scripting (XSS — reflected, stored, DOM)
+       - Insecure deserialization
+       - Components with known vulnerabilities
+       - Insufficient logging and monitoring
+    4. Check for:
+       - Hardcoded secrets (API keys, passwords, tokens)
+       - Unsafe dependencies (known CVEs in lockfile changes)
+       - Missing rate limiting on API endpoints
+       - Inadequate input validation
+       - Information leakage in error responses
+
+    5. WorkspaceTool(operation="write", filename="security_deep_dive.json", content=<JSON>)
+
+    Output schema:
+    {
+      "critical_vulnerabilities": [],
+      "warnings": [],
+      "recommendations": [],
+      "owasp_categories_triggered": [],
+      "hardcoded_secrets_found": false,
+      "summary": "1-2 sentences"
+    }
+
+  expected_output: |
+    "Security deep dive saved to security_deep_dive.json"
+
+synthesize_full_review:
+  description: |
+    Synthesize all full review analyses into the final full_review.json.
+
+    STEPS:
+    1. WorkspaceTool(operation="read", filename="code_quality_deep.json", content="")
+    2. WorkspaceTool(operation="read", filename="architecture_analysis.json", content="")
+    3. WorkspaceTool(operation="read", filename="security_deep_dive.json", content="")
+    4. WorkspaceTool(operation="read", filename="scope.json", content="")
+
+    Merge findings into a unified structure. Deduplicate across analyses.
+    Rank by severity and impact.
+
+    4. WorkspaceTool(operation="write", filename="full_review.json", content=<JSON>)
+
+    Output schema:
+    {
+      "architecture": [],
+      "security": [],
+      "performance": [],
+      "testing": [],
+      "maintainability": [],
+      "summary": "1-3 sentences covering the most important findings"
+    }
+
+    Final response must be JSON only (no markdown, no prose, no code fences).
+
+  expected_output: |
+    "Full review synthesis complete: full_review.json written"

@@ -1,0 +1,97 @@
+analyze_pr_and_route:
+  description: |
+    EXECUTE TOOL CALLS IN THIS ORDER:
+
+    VALIDATION TOOLS:
+    1. WorkspaceTool(operation="exists", filename="diff.json", content="")
+    2. WorkspaceTool(operation="exists", filename="commits.json", content="")
+
+    READ TOOLS:
+    3. WorkspaceTool(operation="read", filename="diff.json", content="")
+       Extract: pr_number, labels, files_changed, additions, deletions, file_list
+
+    4. WorkspaceTool(operation="read", filename="commits.json", content="")
+       Extract: commit_count, commit_messages
+
+    WRITE TOOL:
+    5. WorkspaceTool(operation="write", filename="router_decision.json", content={...})
+
+    Required content for TOOL CALL 5:
+    {
+      "workflows": ["ci-log-analysis", "quick-review"],
+      "specialist_crews": [],
+      "suggestions": [],
+      "metadata": {
+        "pr_number": [from diff.json],
+        "commit_sha": [from diff.json],
+        "files_changed": [from diff.json],
+        "lines_added": [additions from diff.json],
+        "lines_removed": [deletions from diff.json],
+        "complexity": "LOW|MEDIUM|HIGH"
+      },
+      "analysis": {
+        "complexity": "LOW|MEDIUM|HIGH",
+        "reason": "...",
+        "file_types_detected": [],
+        "autodetect_triggers": {},
+        "validation_passed": true
+      }
+    }
+
+    COMPLEXITY RULES:
+    - LOW: files_changed < 5 AND (additions + deletions) < 100
+    - MEDIUM: files_changed 5-20 OR lines 100-500
+    - HIGH: files_changed > 20 OR (additions + deletions) > 500
+
+    WORKFLOW RULES (always-run defaults):
+    - Always include: ["ci-log-analysis", "quick-review"]
+    - If label "crewai:full-review" exists: add "full-review" and prioritize broader specialist coverage (not necessarily all)
+    - If label "crewai:complete-full-review" exists: add "full-review" and include ALL specialist crews
+
+    SPECIALIST CREW LABELS (add matching keys to specialist_crews array):
+    - "crewai:security"  → "security"
+    - "crewai:legal"     → "legal"
+    - "crewai:finance"   → "finance"
+    - "crewai:docs"      → "documentation"
+    - "crewai:agentic"   → "agentic"
+    - "crewai:marketing" → "marketing"
+    - "crewai:science"   → "science"
+    - "crewai:government" → "government"
+    - "crewai:strategy"  → "strategy"
+    - "crewai:data-engineering" → "data_engineering"
+
+    FULL REVIEW EXPANSION:
+    - For "crewai:full-review": select high-confidence specialists first, targeting broader depth than default mode.
+    - For "crewai:complete-full-review": set specialist_crews to ALL:
+      ["security", "legal", "finance", "documentation", "agentic", "marketing", "science", "government", "strategy", "data_engineering"]
+
+    AUTODETECT RULES (add to suggestions AND autodetect_triggers):
+    Scan file_list for path patterns. If matched, suggest the label:
+    - Files matching auth|session|crypto|secret|password|token → suggest "crewai:security"
+    - Files matching LICENSE*|NOTICE*|COPYING* OR lockfiles changed → suggest "crewai:legal"
+    - Files matching billing|payment|invoice|pricing|stripe|checkout → suggest "crewai:finance"
+    - Files matching README*|docs/**|CHANGELOG*|*.md → suggest "crewai:docs"
+    - Files matching AGENTS.md|agentic/**|.crewai/** → suggest "crewai:agentic"
+    - Files matching *.ipynb|notebooks/**|experiments/** → suggest "crewai:science"
+    - UI files (*.tsx|*.jsx|*.vue|*.html|*.css) → suggest "crewai:government" (accessibility)
+    - Files matching *.sql|migrations/**|dbt/**|data/sql/**|etl|elt|pipeline|warehouse → suggest "crewai:data-engineering"
+    - If complexity HIGH → suggest "crewai:full-review"
+    - If files match *secret*|*key*|*.env*|auth* → "Security-sensitive files — manual review recommended"
+
+    SUGGESTION RULES (add to suggestions array):
+    Format each suggestion as: "[LABEL] recommended: [REASON]"
+
+    RULES:
+    - Make ALL tool calls BEFORE returning text
+    - DO NOT explain what you will do
+    - DO NOT return text between tool calls
+    - DO NOT read diff.txt (causes token overflow)
+    - workflows array MUST have at least 2 items
+
+  expected_output: |
+    Verify:
+    1. Validated both input files exist
+    2. Read diff.json and commits.json
+    3. Wrote router_decision.json with workflows + specialist_crews
+
+    Return: "Routing complete: [N] workflows, [M] specialist crews, complexity: [LEVEL]"

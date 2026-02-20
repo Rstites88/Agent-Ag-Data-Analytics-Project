@@ -1,0 +1,41 @@
+{
+  "name": "agent-project",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AGENTS.md-first agentic coding starter template with local/GitHub CI and optional deep specialist review",
+  "scripts": {
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css,scss}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css,scss}\"",
+    "lint": "eslint \"**/*.{js,ts,jsx,tsx}\" --no-error-on-unmatched-pattern",
+    "lint:fix": "eslint --fix \"**/*.{js,ts,jsx,tsx}\" --no-error-on-unmatched-pattern",
+    "lint:md": "markdownlint-cli2 \"**/*.md\" \"#**/node_modules/**\" \"#.github/**\" \"#.crewai/workspace/**\" --fix --config .markdownlint.json",
+    "lint:css": "stylelint \"**/*.{css,scss}\" --fix --allow-empty-input",
+    "lint:all": "pnpm format && pnpm lint:fix && pnpm lint:md && pnpm lint:css",
+    "typecheck": "tsc --noEmit --skipLibCheck",
+    "commitlint": "commitlint --from HEAD~1 --to HEAD --verbose",
+    "ci": "./scripts/ci-local.sh",
+    "ci:review": "./scripts/ci-local.sh --review"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-prettier": "^5.2.0",
+    "markdownlint-cli2": "^0.17.0",
+    "prettier": "^3.4.0",
+    "stylelint": "^16.12.0",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-standard": "^37.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

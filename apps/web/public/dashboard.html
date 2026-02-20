@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Dashboard — protected area." />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="auth-page">
+      <div class="auth-card" id="loading-state">
+        <div class="auth-icon auth-icon-spin">
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+          </svg>
+        </div>
+        <p class="auth-subtitle">Verifying session...</p>
+      </div>
+
+      <div class="auth-card" id="dashboard-state" style="display: none">
+        <div class="auth-icon auth-icon-success">
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
+          </svg>
+        </div>
+        <h1 class="auth-title" id="welcome-name">Welcome</h1>
+        <p class="auth-subtitle" id="user-email"></p>
+        <div class="dashboard-status">
+          <span class="status-dot"></span>
+          Authenticated
+        </div>
+        <div class="auth-actions">
+          <a href="/" class="btn btn-secondary btn-sm">Home</a>
+          <a href="/auth/logout" class="btn btn-danger-outline btn-sm"
+            >Sign Out</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <noscript>
+      <div class="auth-page">
+        <div class="auth-card">
+          <h1 class="auth-title">JavaScript Required</h1>
+          <p class="auth-subtitle">
+            This page requires JavaScript to verify your session.
+          </p>
+          <a href="/" class="auth-back-link">Back to home</a>
+        </div>
+      </div>
+    </noscript>
+
+    <script>
+      (function () {
+        fetch('/auth/session', { credentials: 'same-origin' })
+          .then(function (res) {
+            if (!res.ok) throw new Error('not authenticated');
+            return res.json();
+          })
+          .then(function (data) {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('dashboard-state').style.display = '';
+            document.getElementById('welcome-name').textContent =
+              'Welcome, ' + (data.name || 'User');
+            document.getElementById('user-email').textContent =
+              data.email || '';
+          })
+          .catch(function () {
+            window.location.href = '/login.html';
+          });
+      })();
+    </script>
+  </body>
+</html>

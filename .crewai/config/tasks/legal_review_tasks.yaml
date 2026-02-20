@@ -1,0 +1,237 @@
+# Legal review — 4-agent sequential pipeline
+# license_counsel → us_regulatory_analyst → intl_trade_counsel → global_privacy_counsel
+
+analyze_oss_licenses:
+  description: |
+    Analyze open-source license compliance for changed files and dependencies.
+
+    STEP 1: Read inputs
+    - WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - WorkspaceTool(operation="read", filename="scope.json", content="")
+    - WorkspaceTool(operation="read", filename="diff_context.json", content="")
+    - WorkspaceTool(operation="read", filename="changed_files_index.json", content="")
+      (if it exists)
+
+    STEP 1b: Selective legal context gathering
+    - Use CommitInfoTool(commit_sha=<head sha>, repository=<repo>) to ground recent branch intent
+    - Use RelatedFilesTool(changed_files=[...], repository=<workspace path>) to find impacted policy/config/legal surfaces
+    - Use FileContentTool(file_path=<target>, repository=<repo>, ref="HEAD") for targeted evidence reads
+    - Use FileContentTool(file_path=<target>, repository=<repo>, ref=<merge_base>) only when baseline comparison changes legal risk
+
+    STEP 2: Analyze OSS license compliance
+    Focus on CHANGED files and dependency changes. Check for:
+    - License compatibility (GPL/AGPL/LGPL contamination in permissive projects)
+    - Missing or incorrect SPDX headers in source files
+    - Missing NOTICE file entries for new dependencies
+    - LICENSE file changes that narrow rights or conflict with existing terms
+    - Lockfile dependency additions with copyleft or unknown licenses
+    - Trademark or brand name misuse in code or docs
+    - CONTRIBUTING.md accuracy (CLA/DCO requirements)
+    - Third-party code copied without attribution
+    - Dual-licensing conflicts
+    - OSS obligation gaps (source distribution, attribution, patent grants)
+
+    STEP 3: Write intermediate output
+    WorkspaceTool(operation="write", filename="license_analysis.json", content=<JSON>)
+
+    Schema:
+    {
+      "oss_findings": [
+        {"id": "LEGAL-OSS-001", "title": "...", "severity": "...", "file": "...",
+         "license_type": "GPL-3.0|MIT|Apache-2.0|...", "conflict_with": "...",
+         "description": "...", "recommendation": "...", "verification": "..."}
+      ],
+      "dependency_licenses_checked": 0,
+      "copyleft_detected": false,
+      "attribution_gaps": []
+    }
+  expected_output: |
+    "OSS license analysis complete: license_analysis.json written"
+
+analyze_us_regulatory:
+  description: |
+    Analyze US federal and 50-state regulatory exposure for changed code.
+
+    STEP 1: Read inputs
+    - WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - WorkspaceTool(operation="read", filename="scope.json", content="")
+    - WorkspaceTool(operation="read", filename="license_analysis.json", content="")
+
+    STEP 2: Analyze US regulatory exposure
+    Evaluate changes against:
+
+    FEDERAL:
+    - FTC Act Section 5 (unfair/deceptive practices in code behavior)
+    - CAN-SPAM / TCPA (if communication features changed)
+    - COPPA (if age-gating or child data handling affected)
+    - HIPAA (if health data flows changed)
+    - FERPA (if education data handling changed)
+    - ADA / Section 508 (accessibility in user-facing changes)
+    - SOX (if financial reporting controls affected)
+    - Gramm-Leach-Bliley (if financial data handling changed)
+    - ECPA / SCA (if stored communications handling changed)
+
+    STATE-LEVEL (50-state analysis):
+    - CA: CCPA/CPRA, CalOPPA, California Auto-Renewal Law, Prop 65
+    - NY: SHIELD Act, BitLicense (if crypto/payments), NY DFS cybersecurity
+    - TX: TDPSA (Texas Data Privacy and Security Act), TX Identity Theft Act
+    - IL: BIPA (biometric data), Consumer Fraud Act
+    - CO: CPA (Colorado Privacy Act), Protections for Consumer Data Privacy
+    - CT: CTDPA (Connecticut Data Privacy Act)
+    - VA: VCDPA (Virginia Consumer Data Protection Act)
+    - WA: My Health My Data Act, Biometric identifiers
+    - NV: SB 220 (sale of personal data opt-out)
+    - MA: 201 CMR 17.00 (data security standards)
+    - OR, MT, UT, IN, TN, IO: Emerging state privacy laws
+    - ALL STATES: Data breach notification requirements (vary by state)
+    - Money transmitter licensing (state-by-state if payments involved)
+
+    For each finding, specify the jurisdiction and statute.
+
+    STEP 3: Write intermediate output
+    WorkspaceTool(operation="write", filename="us_regulatory_analysis.json", content=<JSON>)
+
+    Schema:
+    {
+      "federal_findings": [
+        {"id": "LEGAL-FED-001", "title": "...", "severity": "...",
+         "statute": "FTC Act §5", "description": "...", "recommendation": "..."}
+      ],
+      "state_findings": [
+        {"id": "LEGAL-STATE-001", "title": "...", "severity": "...",
+         "states_affected": ["CA", "NY", "IL"], "statute": "CCPA §1798.100",
+         "description": "...", "recommendation": "..."}
+      ],
+      "breach_notification_exposure": [],
+      "money_transmitter_flags": false
+    }
+  expected_output: |
+    "US regulatory analysis complete: us_regulatory_analysis.json written"
+
+analyze_intl_trade:
+  description: |
+    Analyze international trade compliance and market-entry requirements.
+
+    STEP 1: Read inputs
+    - WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - WorkspaceTool(operation="read", filename="scope.json", content="")
+    - WorkspaceTool(operation="read", filename="license_analysis.json", content="")
+    - WorkspaceTool(operation="read", filename="us_regulatory_analysis.json", content="")
+
+    STEP 2: Analyze international compliance
+    Evaluate changes against:
+
+    EXPORT CONTROLS:
+    - EAR (Export Administration Regulations) — encryption ECCN classification
+    - ITAR (if defense/aerospace related)
+    - EU Dual-Use Regulation (Regulation 2021/821)
+    - Wassenaar Arrangement categories
+    - Encryption algorithm changes triggering re-classification (ECCN 5D002)
+    - Open-source encryption exception (EAR §740.13(e))
+
+    SANCTIONS:
+    - OFAC SDN/SSI screening integration (US)
+    - EU restrictive measures
+    - UK OFSI sanctions
+    - UN Security Council sanctions
+    - Country-specific embargoes (Cuba, Iran, North Korea, Syria, Crimea)
+    - IP geofencing requirements
+
+    CROSS-BORDER DATA TRANSFERS:
+    - GDPR Chapter V (EU→third country transfers)
+    - Standard Contractual Clauses (new 2021 SCCs)
+    - UK International Data Transfer Agreement
+    - APEC CBPR system (Asia-Pacific)
+    - Data localization requirements (Russia 242-FZ, China PIPL Art 40)
+
+    MARKET-ENTRY BY REGION:
+    - NAFTA/USMCA: Canada (PIPEDA, CASL, bilingual requirements), Mexico (LFPDPPP, NOM standards)
+    - EU/EEA: GDPR, ePrivacy, Digital Services Act, Digital Markets Act, AI Act
+    - UK: UK GDPR, Online Safety Act, Age Appropriate Design Code
+    - LATAM: Brazil (LGPD, Marco Civil), Argentina (PDPA), Colombia (Law 1581), Chile (Law 19,628)
+    - APAC: Japan (APPI), Korea (PIPA), India (DPDP Act 2023), Australia (Privacy Act 1988), Singapore (PDPA), China (PIPL, CSL, DSL)
+    - MEA: UAE (PDPL), Saudi Arabia (PDPL), Israel (Privacy Protection Law)
+    - Africa: South Africa (POPIA), Nigeria (NDPR), Kenya (DPA 2019), Egypt (Law 151/2020)
+
+    STEP 3: Write intermediate output
+    WorkspaceTool(operation="write", filename="intl_trade_analysis.json", content=<JSON>)
+
+    Schema:
+    {
+      "export_control_findings": [],
+      "sanctions_findings": [],
+      "data_transfer_findings": [],
+      "market_entry_findings": [
+        {"id": "LEGAL-INTL-001", "title": "...", "severity": "...",
+         "regions": ["EU", "LATAM"], "regulation": "GDPR Art 44-49",
+         "description": "...", "recommendation": "...", "verification": "..."}
+      ],
+      "encryption_classification": "EAR99|5D002|not_applicable",
+      "sanctioned_country_exposure": false
+    }
+  expected_output: |
+    "International trade analysis complete: intl_trade_analysis.json written"
+
+synthesize_legal_review:
+  description: |
+    Synthesize all legal analyses into the final standardized legal_review.json.
+
+    STEP 1: Read all upstream analyses
+    - WorkspaceTool(operation="read", filename="license_analysis.json", content="")
+    - WorkspaceTool(operation="read", filename="us_regulatory_analysis.json", content="")
+    - WorkspaceTool(operation="read", filename="intl_trade_analysis.json", content="")
+
+    STEP 2: Analyze global privacy and data protection
+    Additionally check the diff for:
+    - GDPR compliance (lawful basis, data minimization, right to erasure, DPIAs)
+    - CCPA/CPRA (sale of data, opt-out mechanisms, sensitive PI categories)
+    - HIPAA (PHI handling, BAA requirements, minimum necessary standard)
+    - PCI-DSS (cardholder data flows, scope reduction, tokenization)
+    - COPPA (child data collection, verifiable parental consent)
+    - Sector-specific (FERPA for education, GLBA for financial, FCRA for credit)
+    - Consent management changes (opt-in vs opt-out, granularity, withdrawal)
+    - Data retention and deletion logic
+    - Cross-border transfer mechanisms (SCCs, BCRs, adequacy decisions)
+
+    STEP 3: Merge and deduplicate all findings
+    Combine OSS license, US regulatory, international trade, and privacy findings.
+    Assign final severity based on highest risk across jurisdictions.
+    Use LEGAL- prefix for all IDs. Renumber sequentially.
+
+    STEP 4: Write final output
+    WorkspaceTool(operation="write", filename="legal_review.json", content=<JSON>)
+
+    Output schema (MUST match exactly):
+    {
+      "summary": "1-3 sentences: top legal risks and jurisdictional exposure.",
+      "severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0},
+      "findings": [
+        {
+          "id": "LEGAL-001",
+          "title": "Short title",
+          "severity": "critical|high|medium|low|info",
+          "file": "path/to/file",
+          "description": "What legal issue, which jurisdiction(s), which statute(s)",
+          "recommendation": "Specific fix with jurisdiction-aware guidance",
+          "verification": "How to confirm compliance"
+        }
+      ]
+    }
+
+    RULES:
+    - severity_counts MUST match actual findings list
+    - Deduplicate: if same issue appears in OSS + privacy, merge into one finding
+    - Include jurisdiction tags in description (e.g. "Affects: CA, EU, Brazil")
+    - Prioritize changed code and recent commits; include unchanged files only when needed for legal risk proof
+    - Output must be valid JSON
+    - If no legal issues found, return empty findings with info summary
+    - Final response must be JSON only (no markdown, no prose, no code fences)
+
+  expected_output: |
+    "Legal review synthesis complete: legal_review.json written with [N] findings"

@@ -1,0 +1,68 @@
+review_documentation:
+  description: |
+    Review documentation quality and completeness for changed files.
+
+    STEP 1: Read the diff and context
+    - Call WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - Call WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - Call WorkspaceTool(operation="read", filename="diff_context.json", content="")
+      (if it exists)
+    - Call WorkspaceTool(operation="read", filename="changed_files_index.json", content="")
+      (if it exists)
+
+    STEP 1b: Selective repo reads for doc accuracy
+    - Use RelatedFilesTool(changed_files=[...], repository=<workspace path>) to identify docs tied to changed code
+    - Use FileContentTool(file_path=<target>, repository=<repo>, ref="HEAD") to verify referenced APIs/flows
+    - Use CommitInfoTool(commit_sha=<head sha>, repository=<repo>) when release notes/changelog intent is unclear
+
+    STEP 2: Analyze documentation quality
+    Focus on CHANGED files. Check for:
+    - README accuracy (does it match current code behavior?)
+    - API documentation completeness (params, return types, error codes)
+    - Missing or outdated code examples
+    - Broken internal links or cross-references
+    - Changelog entries for user-facing changes
+    - Installation/setup instructions accuracy
+    - Missing migration or upgrade guides for breaking changes
+    - Inconsistent terminology across docs
+    - Copy-paste errors in examples
+    - Missing prerequisites or environment requirements
+    - Undocumented environment variables or configuration options
+    - Missing JSDoc/docstring for public APIs
+
+    For each finding, assess:
+    - Reader impact: Will someone get stuck or misled?
+    - Staleness risk: Will this drift from reality quickly?
+    - Completeness: Is critical information missing?
+
+    STEP 3: Write structured output
+    Call WorkspaceTool(operation="write", filename="documentation_review.json", content=<JSON>)
+
+    Output schema:
+    {
+      "summary": "1-3 sentences: what matters most and why.",
+      "severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0},
+      "findings": [
+        {
+          "id": "DOC-001",
+          "title": "Short title",
+          "severity": "critical|high|medium|low|info",
+          "file": "path/to/file",
+          "description": "What is wrong or missing in the documentation",
+          "recommendation": "Specific text to add, fix, or restructure",
+          "verification": "How to verify the docs are now correct"
+        }
+      ]
+    }
+
+    RULES:
+    - Prioritize CHANGED files and near-by docs; include unchanged docs only if they conflict with changed behavior
+    - ID prefix must be DOC-
+    - severity_counts must match the actual findings list
+    - If no docs changed, return empty findings with info summary
+    - Output must be valid JSON
+    - Final response must be JSON only (no markdown, no prose, no code fences)
+
+  expected_output: |
+    "Documentation review complete: documentation_review.json written with [N] findings"

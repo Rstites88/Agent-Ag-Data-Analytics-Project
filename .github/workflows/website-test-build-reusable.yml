@@ -1,0 +1,217 @@
+name: Test-Build / Website
+
+on:
+  workflow_call:
+    inputs:
+      commit_sha:
+        description: 'Specific commit SHA to check out'
+        required: false
+        type: string
+    outputs:
+      build_artifact:
+        description: 'Name of the build artifact'
+        value: ${{ jobs.website-test-build.outputs.artifact_name }}
+      should_deploy:
+        description: 'Whether deployment should proceed'
+        value: ${{ jobs.website-test-build.outputs.should_deploy }}
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  website-test-build:
+    name: Execute Website Test-Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    outputs:
+      artifact_name: website-build
+      should_deploy: ${{ steps.check.outputs.should_run }}
+
+    defaults:
+      run:
+        working-directory: apps/web
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Initialize job capture
+        uses: ./.github/actions/capture-job-output
+        with:
+          job-name: 'test-website'
+          mode: 'start'
+
+      - name: Check if website files changed
+        id: check
+        working-directory: .
+        run: |
+          set -e
+          echo "🔍 Checking if website files changed..."
+
+          # Always use PR context when available (both for PR events and merged PRs)
+          if [ -n "${{ github.event.pull_request.base.sha }}" ]; then
+            # PR event or workflow_run from PR
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.event.pull_request.head.sha }}"
+            echo "📊 PR Mode: Comparing entire PR diff"
+            echo "   Base: $BASE (target branch)"
+            echo "   Head: $HEAD (PR branch)"
+
+            # Ensure we have the base commit
+            echo "📥 Fetching base commit if needed..."
+            git fetch origin "$BASE" --depth=1 || true
+          else
+            # Direct push to main (no PR context) - check single commit only
+            BASE="${{ github.event.before }}"
+            HEAD="${{ github.sha }}"
+            echo "📊 Direct Push Mode: Comparing single commit"
+            echo "   Before: $BASE"
+            echo "   After: $HEAD"
+          fi
+
+          # Ensure we have the refs we need
+          if [ -z "$BASE" ] || [ "$BASE" == "0000000000000000000000000000000000000000" ]; then
+            echo "⚠️  No base SHA available - assuming first commit or force push"
+            echo "✅ Running build to be safe"
+            echo "should_run=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Debug: Show what we have
+          echo "🔍 Debug: Checking if commits exist..."
+          git rev-parse "$BASE" >/dev/null 2>&1 && echo "  ✓ Base commit exists" || echo "  ✗ Base commit missing"
+          git rev-parse "$HEAD" >/dev/null 2>&1 && echo "  ✓ Head commit exists" || echo "  ✗ Head commit missing"
+
+          # Check for apps/web directory changes across the entire diff
+          echo "🔍 Running diff..."
+          CHANGED_FILES=$(git diff --name-only "$BASE".."HEAD" | grep '^apps/web/' || true)
+
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "⏭️  No apps/web files changed - skipping tests and build"
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          else
+            echo "✅ apps/web files changed:"
+            echo "$CHANGED_FILES" | head -n 5
+            if [ $(echo "$CHANGED_FILES" | wc -l) -gt 5 ]; then
+              echo "... and $(( $(echo "$CHANGED_FILES" | wc -l) - 5 )) more"
+            fi
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup pnpm
+        if: steps.check.outputs.should_run == 'true'
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        if: steps.check.outputs.should_run == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        if: steps.check.outputs.should_run == 'true'
+        run: |
+          echo "📦 Installing dependencies..."
+          pnpm install --frozen-lockfile
+
+      - name: Run linting
+        if: steps.check.outputs.should_run == 'true'
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/.crewai-job-output"
+          echo "🔍 Running linting..." | tee -a "$GITHUB_WORKSPACE/.crewai-job-output/current-job.log"
+          pnpm run lint 2>&1 | tee -a "$GITHUB_WORKSPACE/.crewai-job-output/current-job.log" || echo "⚠️  Linting not configured yet"
+
+      - name: Run tests
+        if: steps.check.outputs.should_run == 'true'
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/.crewai-job-output"
+          echo "🧪 Running tests..." | tee -a "$GITHUB_WORKSPACE/.crewai-job-output/current-job.log"
+          pnpm run test 2>&1 | tee -a "$GITHUB_WORKSPACE/.crewai-job-output/current-job.log" || echo "⚠️  Tests not configured yet"
+
+      - name: Build website
+        if: steps.check.outputs.should_run == 'true'
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/.crewai-job-output"
+          echo "🏗️  Building website..." | tee -a "$GITHUB_WORKSPACE/.crewai-job-output/current-job.log"
+          pnpm run build 2>&1 | tee -a "$GITHUB_WORKSPACE/.crewai-job-output/current-job.log"
+
+      - name: Upload build artifacts
+        if: steps.check.outputs.should_run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-build
+          path: apps/web/dist
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: Generate build summary
+        if: always() && steps.check.outputs.should_run == 'true'
+        working-directory: .
+        run: |
+          echo "## 🏗️ Website Build" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -d "apps/web/dist" ]; then
+            echo "✅ **Build successful!**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Build Artifacts" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            # Calculate build size
+            BUILD_SIZE=$(du -sh apps/web/dist | cut -f1)
+            FILE_COUNT=$(find apps/web/dist -type f | wc -l)
+
+            echo "- **Size**: $BUILD_SIZE" >> $GITHUB_STEP_SUMMARY
+            echo "- **Files**: $FILE_COUNT" >> $GITHUB_STEP_SUMMARY
+            echo "- **Artifact**: website-build" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Build failed - no dist directory created**" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Add summary for skipped build
+        if: always() && steps.check.outputs.should_run == 'false'
+        working-directory: .
+        run: |
+          echo "## 🏗️ Website Build" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⏭️ **Skipped** - No apps/web files changed" >> $GITHUB_STEP_SUMMARY
+
+      - name: Save summary for capture
+        if: always()
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/.crewai-job-output"
+          # Save step summary with fallback to prevent empty file
+          if [ -n "$GITHUB_STEP_SUMMARY" ] && [ -s "$GITHUB_STEP_SUMMARY" ]; then
+            cp "$GITHUB_STEP_SUMMARY" "$GITHUB_WORKSPACE/.crewai-job-output/current-job-summary.md"
+          else
+            # Fallback if summary is missing or empty
+            echo "# Website Test & Build Summary" > "$GITHUB_WORKSPACE/.crewai-job-output/current-job-summary.md"
+            echo "" >> "$GITHUB_WORKSPACE/.crewai-job-output/current-job-summary.md"
+            echo "No step summary was generated for this job." >> "$GITHUB_WORKSPACE/.crewai-job-output/current-job-summary.md"
+          fi
+
+      - name: Finalize job capture
+        if: always()
+        uses: ./.github/actions/capture-job-output
+        with:
+          job-name: 'test-website'
+          job-conclusion: ${{ job.status }}
+          mode: 'finish'
+          summary-file:
+            ${{ github.workspace }}/.crewai-job-output/current-job-summary.md
+
+      - name: Upload job output artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-job-output-test-website
+          path: ${{ github.workspace }}/.crewai-job-output/
+          retention-days: 7
+          if-no-files-found: warn
+          include-hidden-files: true

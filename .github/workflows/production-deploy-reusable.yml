@@ -1,0 +1,260 @@
+name: Deploy / Production
+
+on:
+  workflow_call:
+    inputs:
+      workspace:
+        description: 'Workspace to deploy (e.g., website)'
+        required: true
+        type: string
+      build_artifact:
+        description: 'Name of the build artifact to deploy'
+        required: true
+        type: string
+    outputs:
+      deployment_url:
+        description: 'URL of the production deployment'
+        value: ${{ jobs.production-deploy.outputs.url }}
+
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: write
+
+jobs:
+  production-deploy:
+    name: Execute Production Deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
+
+    outputs:
+      url: ${{ steps.extract_url.outputs.url }}
+
+    environment:
+      name: production
+      url: ${{ steps.extract_url.outputs.url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 10
+
+      - name: Initialize job capture
+        uses: ./.github/actions/capture-job-output
+        with:
+          job-name: 'deploy-production'
+          mode: 'start'
+
+      - name: Log deployment start
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/.crewai-job-output"
+          echo "🎉 Starting production deployment" | tee -a "$GITHUB_WORKSPACE/.crewai-job-output/current-job.log"
+          echo "Workspace: ${{ inputs.workspace }}" | tee -a "$GITHUB_WORKSPACE/.crewai-job-output/current-job.log"
+
+      - name: Extract PR number and verify preview
+        id: verify_preview
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Extract PR number from merge commit message
+            const { execSync } = require('child_process');
+            let prNumber = '';
+
+            try {
+              const commitMsg = execSync('git log -1 --pretty=%B').toString();
+              const match = commitMsg.match(/Merge pull request #(\d+)/) || commitMsg.match(/\(#(\d+)\)/);
+              if (match) {
+                prNumber = match[1];
+                console.log(`✅ Found PR number: #${prNumber}`);
+                core.setOutput('pr_number', prNumber);
+              } else {
+                console.log('⚠️ Could not extract PR number from commit message');
+                console.log('⚠️ This may be a direct push to main');
+                return;
+              }
+            } catch (error) {
+              console.log('⚠️ Error extracting PR number:', error.message);
+              return;
+            }
+
+            // Check for successful preview deployment
+            console.log(`🔍 Checking for successful preview deployment in PR #${prNumber}`);
+
+            const deployments = await github.rest.repos.listDeployments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              environment: `preview-pr-${prNumber}`,
+              per_page: 10
+            });
+
+            if (deployments.data.length === 0) {
+              core.setFailed(`❌ No preview deployment found for PR #${prNumber}. Please add the 'Deploy: Website Preview' label and deploy a preview before merging.`);
+              return;
+            }
+
+            // Check if any deployment was successful
+            let hasSuccessfulDeployment = false;
+
+            for (const deployment of deployments.data) {
+              const statuses = await github.rest.repos.listDeploymentStatuses({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                deployment_id: deployment.id
+              });
+
+              if (statuses.data.some(s => s.state === 'success')) {
+                hasSuccessfulDeployment = true;
+                console.log(`✅ Found successful preview deployment: ${deployment.id}`);
+                break;
+              }
+            }
+
+            if (!hasSuccessfulDeployment) {
+              core.setFailed(`❌ No successful preview deployment found for PR #${prNumber}. Please deploy a successful preview before merging.`);
+              return;
+            }
+
+            console.log('✅ Preview deployment verification passed!');
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.build_artifact }}
+          path: ./dist
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npx wrangler pages deploy ./dist \
+            --project-name=${{ inputs.workspace }} \
+            --branch=main
+
+      - name: Extract deployment URL
+        id: extract_url
+        run: |
+          # Cloudflare Pages production URL pattern
+          PRODUCTION_URL="https://${{ inputs.workspace }}.pages.dev"
+          echo "url=$PRODUCTION_URL" >> $GITHUB_OUTPUT
+          echo "✅ Production deployed to: $PRODUCTION_URL"
+          echo "✅ Production deployed to: $PRODUCTION_URL" | tee -a "$GITHUB_WORKSPACE/.crewai-job-output/current-job.log"
+
+      - name: Create deployment status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deployment = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              environment: 'production',
+              auto_merge: false,
+              required_contexts: [],
+              description: 'Production deployment'
+            });
+
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: deployment.data.id,
+              state: 'success',
+              environment_url: '${{ steps.extract_url.outputs.url }}',
+              description: 'Production deployment successful'
+            });
+
+      - name: Comment on merged PR
+        if: steps.verify_preview.outputs.pr_number != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = '${{ steps.extract_url.outputs.url }}';
+            const workspace = '${{ inputs.workspace }}';
+            const prNumber = '${{ steps.verify_preview.outputs.pr_number }}';
+
+            if (!prNumber) {
+              console.log('No PR number available - skipping comment');
+              return;
+            }
+
+            const comment = `## 🎉 Production Deployment
+
+            Your changes have been deployed to production!
+
+            | Item | Value |
+            |------|-------|
+            | **Workspace** | \`${workspace}\` |
+            | **Environment** | Production |
+            | **URL** | ${url} |
+            | **Commit** | ${context.sha.substring(0, 7)} |
+
+            ### Actions
+            - [View Production Site](${url})
+            - [View Logs](${context.payload.repository.html_url}/actions/runs/${context.runId})
+
+            ---
+
+            *Deployed from PR #${prNumber}*`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: parseInt(prNumber),
+              body: comment
+            });
+
+      - name: Generate deployment summary
+        run: |
+          echo "## 🎉 Production Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Deployment successful!**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Production URL:** ${{ steps.extract_url.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Workspace:** ${{ inputs.workspace }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** production" >> $GITHUB_STEP_SUMMARY
+
+          if [ -n "${{ steps.verify_preview.outputs.pr_number }}" ]; then
+            echo "**Source PR:** #${{ steps.verify_preview.outputs.pr_number }}" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Save summary for capture
+        if: always()
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/.crewai-job-output"
+          if [ -n "$GITHUB_STEP_SUMMARY" ] && [ -f "$GITHUB_STEP_SUMMARY" ]; then
+            cp "$GITHUB_STEP_SUMMARY" "$GITHUB_WORKSPACE/.crewai-job-output/current-job-summary.md"
+          fi
+
+      - name: Finalize job capture
+        if: always()
+        uses: ./.github/actions/capture-job-output
+        with:
+          job-name: 'deploy-production'
+          job-conclusion: ${{ job.status }}
+          mode: 'finish'
+          summary-file:
+            ${{ github.workspace }}/.crewai-job-output/current-job-summary.md
+
+      - name: Upload job output artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-job-output-deploy-production
+          path: ${{ github.workspace }}/.crewai-job-output/
+          retention-days: 7
+          if-no-files-found: warn
+          include-hidden-files: true

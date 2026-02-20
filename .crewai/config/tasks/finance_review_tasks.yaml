@@ -1,0 +1,71 @@
+review_finance:
+  description: |
+    Audit financial and billing logic in the changed code.
+
+    STEP 1: Read the diff and context
+    - Call WorkspaceTool(operation="read", filename="diff.txt", content="")
+    - Call WorkspaceTool(operation="read", filename="context_pack.md", content="")
+      (if it exists)
+    - Call WorkspaceTool(operation="read", filename="diff_context.json", content="")
+      (if it exists)
+    - Call WorkspaceTool(operation="read", filename="changed_files_index.json", content="")
+      (if it exists)
+    - Call WorkspaceTool(operation="read", filename="scope.json", content="")
+      (if it exists)
+
+    STEP 1b: Selective repository investigation
+    - Use CommitInfoTool(commit_sha=<head sha>, repository=<repo>) to understand latest branch intent
+    - Use RelatedFilesTool(changed_files=[...], repository=<workspace path>) to locate billing-adjacent files
+    - Use FileContentTool(file_path=<target>, repository=<repo>, ref="HEAD") for focused reads
+    - Use CommitDiffTool(commit_sha=<recent commit>, repository=<repo>) only when commit-level detail is needed
+
+    STEP 2: Analyze for financial correctness
+    Focus on CHANGED code only. Check for:
+    - Billing calculation errors (rounding, floating-point currency, off-by-one)
+    - Missing idempotency on payment operations
+    - Race conditions in balance updates or charge flows
+    - Missing audit trails for financial transactions
+    - Inconsistent currency handling (mixing cents/dollars, locale issues)
+    - Subscription lifecycle bugs (trial→paid, upgrade/downgrade, cancellation)
+    - Refund logic correctness and edge cases
+    - Webhook handler reliability (retry safety, signature verification)
+    - PCI DSS compliance issues (card data in logs, insecure storage)
+    - SOX-relevant control gaps (unauthorized access to financial data)
+    - Missing or incorrect tax calculations
+    - Invoice generation correctness
+
+    For each finding, assess:
+    - Financial impact: Could this cause monetary loss?
+    - Auditability: Is the change traceable?
+    - Compliance: Does it meet regulatory requirements?
+
+    STEP 3: Write structured output
+    Call WorkspaceTool(operation="write", filename="finance_review.json", content=<JSON>)
+
+    Output schema:
+    {
+      "summary": "1-3 sentences: what matters most and why.",
+      "severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0},
+      "findings": [
+        {
+          "id": "FIN-001",
+          "title": "Short title",
+          "severity": "critical|high|medium|low|info",
+          "file": "path/to/file",
+          "description": "What changed and why it matters financially",
+          "recommendation": "Concrete fix or control to add",
+          "verification": "How to prove correctness (test case, reconciliation check)"
+        }
+      ]
+    }
+
+    RULES:
+    - Prioritize CHANGED code and recent commits; include unchanged files only when they influence financial correctness
+    - ID prefix must be FIN-
+    - severity_counts must match the actual findings list
+    - If no financial code detected, return empty findings with info summary
+    - Output must be valid JSON
+    - Final response must be JSON only (no markdown, no prose, no code fences)
+
+  expected_output: |
+    "Finance review complete: finance_review.json written with [N] findings"
