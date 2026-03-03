@@ -1,0 +1,835 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0001",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.55,
+              41.55
+            ],
+            [
+              -94.45,
+              41.55
+            ],
+            [
+              -94.45,
+              41.65
+            ],
+            [
+              -94.55,
+              41.65
+            ],
+            [
+              -94.55,
+              41.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 1,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0002",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.39999999999999,
+              41.55
+            ],
+            [
+              -94.3,
+              41.55
+            ],
+            [
+              -94.3,
+              41.65
+            ],
+            [
+              -94.39999999999999,
+              41.65
+            ],
+            [
+              -94.39999999999999,
+              41.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 2,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0003",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.55,
+              41.7
+            ],
+            [
+              -94.45,
+              41.7
+            ],
+            [
+              -94.45,
+              41.800000000000004
+            ],
+            [
+              -94.55,
+              41.800000000000004
+            ],
+            [
+              -94.55,
+              41.7
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 3,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0004",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.55,
+              41.55
+            ],
+            [
+              -94.45,
+              41.55
+            ],
+            [
+              -94.45,
+              41.65
+            ],
+            [
+              -94.55,
+              41.65
+            ],
+            [
+              -94.55,
+              41.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 4,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0005",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.39999999999999,
+              41.55
+            ],
+            [
+              -94.3,
+              41.55
+            ],
+            [
+              -94.3,
+              41.65
+            ],
+            [
+              -94.39999999999999,
+              41.65
+            ],
+            [
+              -94.39999999999999,
+              41.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 5,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0006",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.55,
+              41.7
+            ],
+            [
+              -94.45,
+              41.7
+            ],
+            [
+              -94.45,
+              41.800000000000004
+            ],
+            [
+              -94.55,
+              41.800000000000004
+            ],
+            [
+              -94.55,
+              41.7
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 6,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0007",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.75,
+              41.05
+            ],
+            [
+              -95.65,
+              41.05
+            ],
+            [
+              -95.65,
+              41.15
+            ],
+            [
+              -95.75,
+              41.15
+            ],
+            [
+              -95.75,
+              41.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 7,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0008",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.6,
+              41.05
+            ],
+            [
+              -95.5,
+              41.05
+            ],
+            [
+              -95.5,
+              41.15
+            ],
+            [
+              -95.6,
+              41.15
+            ],
+            [
+              -95.6,
+              41.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 8,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0009",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.75,
+              41.2
+            ],
+            [
+              -95.65,
+              41.2
+            ],
+            [
+              -95.65,
+              41.300000000000004
+            ],
+            [
+              -95.75,
+              41.300000000000004
+            ],
+            [
+              -95.75,
+              41.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 9,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0010",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.75,
+              41.05
+            ],
+            [
+              -95.65,
+              41.05
+            ],
+            [
+              -95.65,
+              41.15
+            ],
+            [
+              -95.75,
+              41.15
+            ],
+            [
+              -95.75,
+              41.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 10,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0011",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.6,
+              41.05
+            ],
+            [
+              -95.5,
+              41.05
+            ],
+            [
+              -95.5,
+              41.15
+            ],
+            [
+              -95.6,
+              41.15
+            ],
+            [
+              -95.6,
+              41.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 11,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0012",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.75,
+              41.2
+            ],
+            [
+              -95.65,
+              41.2
+            ],
+            [
+              -95.65,
+              41.300000000000004
+            ],
+            [
+              -95.75,
+              41.300000000000004
+            ],
+            [
+              -95.75,
+              41.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 12,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0013",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.95,
+              42.55
+            ],
+            [
+              -90.85000000000001,
+              42.55
+            ],
+            [
+              -90.85000000000001,
+              42.65
+            ],
+            [
+              -90.95,
+              42.65
+            ],
+            [
+              -90.95,
+              42.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 13,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0014",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.8,
+              42.55
+            ],
+            [
+              -90.7,
+              42.55
+            ],
+            [
+              -90.7,
+              42.65
+            ],
+            [
+              -90.8,
+              42.65
+            ],
+            [
+              -90.8,
+              42.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 14,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0015",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.95,
+              42.7
+            ],
+            [
+              -90.85000000000001,
+              42.7
+            ],
+            [
+              -90.85000000000001,
+              42.800000000000004
+            ],
+            [
+              -90.95,
+              42.800000000000004
+            ],
+            [
+              -90.95,
+              42.7
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 15,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0016",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.95,
+              42.55
+            ],
+            [
+              -90.85000000000001,
+              42.55
+            ],
+            [
+              -90.85000000000001,
+              42.65
+            ],
+            [
+              -90.95,
+              42.65
+            ],
+            [
+              -90.95,
+              42.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 16,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0017",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.8,
+              42.55
+            ],
+            [
+              -90.7,
+              42.55
+            ],
+            [
+              -90.7,
+              42.65
+            ],
+            [
+              -90.8,
+              42.65
+            ],
+            [
+              -90.8,
+              42.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 17,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0018",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.95,
+              42.7
+            ],
+            [
+              -90.85000000000001,
+              42.7
+            ],
+            [
+              -90.85000000000001,
+              42.800000000000004
+            ],
+            [
+              -90.95,
+              42.800000000000004
+            ],
+            [
+              -90.95,
+              42.7
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 18,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0019",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -91.45,
+              40.55
+            ],
+            [
+              -91.35000000000001,
+              40.55
+            ],
+            [
+              -91.35000000000001,
+              40.65
+            ],
+            [
+              -91.45,
+              40.65
+            ],
+            [
+              -91.45,
+              40.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 19,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "SE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0020",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -91.3,
+              40.55
+            ],
+            [
+              -91.2,
+              40.55
+            ],
+            [
+              -91.2,
+              40.65
+            ],
+            [
+              -91.3,
+              40.65
+            ],
+            [
+              -91.3,
+              40.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 20,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "SE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL"
+      }
+    }
+  ],
+  "properties": {
+    "source": "USDA NASS Cropland Data Layer",
+    "state": "Iowa",
+    "crops": [
+      "corn",
+      "soybean"
+    ],
+    "count": 20,
+    "crs": "EPSG:4326"
+  }
+}
