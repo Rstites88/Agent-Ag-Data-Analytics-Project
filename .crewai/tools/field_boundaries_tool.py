@@ -5,7 +5,6 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-import requests
 from crewai.tools import BaseTool
 
 logger = logging.getLogger(__name__)
@@ -14,7 +13,7 @@ logger = logging.getLogger(__name__)
 class FieldBoundariesTool(BaseTool):
     """
     Tool to download agricultural field boundaries from USDA sources and save as GeoJSON.
-    
+
     Uses USDA NASS Cropland Data Layer to identify and extract field boundaries
     for specified crops (corn, soybean, etc.) in a given state.
     """
@@ -57,9 +56,7 @@ class FieldBoundariesTool(BaseTool):
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
         try:
-            logger.info(
-                f"Downloading field boundaries for {crops} in {state} (limit: {limit})"
-            )
+            logger.info(f"Downloading field boundaries for {crops} in {state} (limit: {limit})")
 
             # Fetch field data from USDA OpenEO API or alternative source
             fields = self._fetch_field_boundaries(state, crops, limit)
@@ -91,9 +88,7 @@ class FieldBoundariesTool(BaseTool):
             logger.error(f"Error downloading field boundaries: {e}")
             return f"Error: {str(e)}"
 
-    def _fetch_field_boundaries(
-        self, state: str, crops: list[str], limit: int
-    ) -> list[dict]:
+    def _fetch_field_boundaries(self, state: str, crops: list[str], limit: int) -> list[dict]:
         """
         Fetch field boundaries from USDA or open agricultural data sources.
 

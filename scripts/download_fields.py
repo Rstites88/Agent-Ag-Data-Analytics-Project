@@ -144,9 +144,7 @@ def download_fields(
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     try:
-        logger.info(
-            f"Downloading field boundaries for {crops} in {state} (limit: {limit})"
-        )
+        logger.info(f"Downloading field boundaries for {crops} in {state} (limit: {limit})")
 
         # Fetch field data
         fields = fetch_field_boundaries(state, crops, limit)
@@ -203,4 +201,5 @@ def main():
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())
