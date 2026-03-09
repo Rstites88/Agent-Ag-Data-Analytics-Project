@@ -1,0 +1,1149 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "great_plains-corn-field-0001",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -103.95,
+              36.05
+            ],
+            [
+              -103.85000000000001,
+              36.05
+            ],
+            [
+              -103.85000000000001,
+              36.15
+            ],
+            [
+              -103.95,
+              36.15
+            ],
+            [
+              -103.95,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 1,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "great_plains",
+        "region": "Western Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2021,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2022,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2023,
+            "crop": "corn",
+            "crop_code": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-corn-field-0002",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -103.8,
+              36.05
+            ],
+            [
+              -103.7,
+              36.05
+            ],
+            [
+              -103.7,
+              36.15
+            ],
+            [
+              -103.8,
+              36.15
+            ],
+            [
+              -103.8,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 2,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "great_plains",
+        "region": "Western Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2021,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2022,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2023,
+            "crop": "corn",
+            "crop_code": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-corn-field-0003",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -103.95,
+              36.2
+            ],
+            [
+              -103.85000000000001,
+              36.2
+            ],
+            [
+              -103.85000000000001,
+              36.300000000000004
+            ],
+            [
+              -103.95,
+              36.300000000000004
+            ],
+            [
+              -103.95,
+              36.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 3,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "great_plains",
+        "region": "Western Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2021,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2022,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2023,
+            "crop": "corn",
+            "crop_code": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-soybean-field-0004",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -103.95,
+              36.05
+            ],
+            [
+              -103.85000000000001,
+              36.05
+            ],
+            [
+              -103.85000000000001,
+              36.15
+            ],
+            [
+              -103.95,
+              36.15
+            ],
+            [
+              -103.95,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 4,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "great_plains",
+        "region": "Western Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2021,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2022,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2023,
+            "crop": "soybean",
+            "crop_code": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-soybean-field-0005",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -103.8,
+              36.05
+            ],
+            [
+              -103.7,
+              36.05
+            ],
+            [
+              -103.7,
+              36.15
+            ],
+            [
+              -103.8,
+              36.15
+            ],
+            [
+              -103.8,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 5,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "great_plains",
+        "region": "Western Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2021,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2022,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2023,
+            "crop": "soybean",
+            "crop_code": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-soybean-field-0006",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -103.95,
+              36.2
+            ],
+            [
+              -103.85000000000001,
+              36.2
+            ],
+            [
+              -103.85000000000001,
+              36.300000000000004
+            ],
+            [
+              -103.95,
+              36.300000000000004
+            ],
+            [
+              -103.95,
+              36.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 6,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "great_plains",
+        "region": "Western Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2021,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2022,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2023,
+            "crop": "soybean",
+            "crop_code": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-corn-field-0007",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -97.95,
+              36.05
+            ],
+            [
+              -97.85000000000001,
+              36.05
+            ],
+            [
+              -97.85000000000001,
+              36.15
+            ],
+            [
+              -97.95,
+              36.15
+            ],
+            [
+              -97.95,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 7,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "great_plains",
+        "region": "Central Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2021,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2022,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2023,
+            "crop": "corn",
+            "crop_code": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-corn-field-0008",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -97.8,
+              36.05
+            ],
+            [
+              -97.7,
+              36.05
+            ],
+            [
+              -97.7,
+              36.15
+            ],
+            [
+              -97.8,
+              36.15
+            ],
+            [
+              -97.8,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 8,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "great_plains",
+        "region": "Central Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2021,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2022,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2023,
+            "crop": "corn",
+            "crop_code": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-corn-field-0009",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -97.95,
+              36.2
+            ],
+            [
+              -97.85000000000001,
+              36.2
+            ],
+            [
+              -97.85000000000001,
+              36.300000000000004
+            ],
+            [
+              -97.95,
+              36.300000000000004
+            ],
+            [
+              -97.95,
+              36.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 9,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "great_plains",
+        "region": "Central Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2021,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2022,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2023,
+            "crop": "corn",
+            "crop_code": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-soybean-field-0010",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -97.95,
+              36.05
+            ],
+            [
+              -97.85000000000001,
+              36.05
+            ],
+            [
+              -97.85000000000001,
+              36.15
+            ],
+            [
+              -97.95,
+              36.15
+            ],
+            [
+              -97.95,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 10,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "great_plains",
+        "region": "Central Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2021,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2022,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2023,
+            "crop": "soybean",
+            "crop_code": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-soybean-field-0011",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -97.8,
+              36.05
+            ],
+            [
+              -97.7,
+              36.05
+            ],
+            [
+              -97.7,
+              36.15
+            ],
+            [
+              -97.8,
+              36.15
+            ],
+            [
+              -97.8,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 11,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "great_plains",
+        "region": "Central Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2021,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2022,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2023,
+            "crop": "soybean",
+            "crop_code": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-soybean-field-0012",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -97.95,
+              36.2
+            ],
+            [
+              -97.85000000000001,
+              36.2
+            ],
+            [
+              -97.85000000000001,
+              36.300000000000004
+            ],
+            [
+              -97.95,
+              36.300000000000004
+            ],
+            [
+              -97.95,
+              36.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 12,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "great_plains",
+        "region": "Central Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2021,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2022,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2023,
+            "crop": "soybean",
+            "crop_code": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-corn-field-0013",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.95,
+              36.05
+            ],
+            [
+              -93.85000000000001,
+              36.05
+            ],
+            [
+              -93.85000000000001,
+              36.15
+            ],
+            [
+              -93.95,
+              36.15
+            ],
+            [
+              -93.95,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 13,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "great_plains",
+        "region": "Eastern Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2021,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2022,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2023,
+            "crop": "corn",
+            "crop_code": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-corn-field-0014",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.8,
+              36.05
+            ],
+            [
+              -93.7,
+              36.05
+            ],
+            [
+              -93.7,
+              36.15
+            ],
+            [
+              -93.8,
+              36.15
+            ],
+            [
+              -93.8,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 14,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "great_plains",
+        "region": "Eastern Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2021,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2022,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2023,
+            "crop": "corn",
+            "crop_code": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-corn-field-0015",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.95,
+              36.2
+            ],
+            [
+              -93.85000000000001,
+              36.2
+            ],
+            [
+              -93.85000000000001,
+              36.300000000000004
+            ],
+            [
+              -93.95,
+              36.300000000000004
+            ],
+            [
+              -93.95,
+              36.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 15,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "great_plains",
+        "region": "Eastern Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2021,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2022,
+            "crop": "corn",
+            "crop_code": 1
+          },
+          {
+            "year": 2023,
+            "crop": "corn",
+            "crop_code": 1
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-soybean-field-0016",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.95,
+              36.05
+            ],
+            [
+              -93.85000000000001,
+              36.05
+            ],
+            [
+              -93.85000000000001,
+              36.15
+            ],
+            [
+              -93.95,
+              36.15
+            ],
+            [
+              -93.95,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 16,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "great_plains",
+        "region": "Eastern Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2021,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2022,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2023,
+            "crop": "soybean",
+            "crop_code": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-soybean-field-0017",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.8,
+              36.05
+            ],
+            [
+              -93.7,
+              36.05
+            ],
+            [
+              -93.7,
+              36.15
+            ],
+            [
+              -93.8,
+              36.15
+            ],
+            [
+              -93.8,
+              36.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 17,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "great_plains",
+        "region": "Eastern Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2021,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2022,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2023,
+            "crop": "soybean",
+            "crop_code": 5
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "great_plains-soybean-field-0018",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.95,
+              36.2
+            ],
+            [
+              -93.85000000000001,
+              36.2
+            ],
+            [
+              -93.85000000000001,
+              36.300000000000004
+            ],
+            [
+              -93.95,
+              36.300000000000004
+            ],
+            [
+              -93.95,
+              36.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 18,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "great_plains",
+        "region": "Eastern Great Plains",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "cdl": [
+          {
+            "year": 2020,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2021,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2022,
+            "crop": "soybean",
+            "crop_code": 5
+          },
+          {
+            "year": 2023,
+            "crop": "soybean",
+            "crop_code": 5
+          }
+        ]
+      }
+    }
+  ],
+  "properties": {
+    "source": "USDA NASS Cropland Data Layer",
+    "state": "great_plains",
+    "crops": [
+      "corn",
+      "soybean"
+    ],
+    "count": 18,
+    "crs": "EPSG:4326"
+  }
+}

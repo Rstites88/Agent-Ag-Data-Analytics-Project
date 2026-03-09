@@ -1,0 +1,1184 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"
+    />
+
+    <meta
+      name="viewport"
+      content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <style>
+      #map_9476af929a8264a927e0c2b13ddc8d28 {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        left: 0%;
+        top: 0%;
+      }
+      .leaflet-container {
+        font-size: 1rem;
+      }
+    </style>
+
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <style>
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+      }
+    </style>
+
+    <script>
+      L_NO_TOUCH = false;
+      L_DISABLE_3D = false;
+    </script>
+
+    <style>
+      .foliumtooltip {
+      }
+      .foliumtooltip table {
+        margin: auto;
+      }
+      .foliumtooltip tr {
+        text-align: left;
+      }
+      .foliumtooltip th {
+        padding: 2px;
+        padding-right: 8px;
+      }
+    </style>
+
+    <style>
+      .foliumpopup {
+        margin: auto;
+      }
+      .foliumpopup table {
+        margin: auto;
+      }
+      .foliumpopup tr {
+        text-align: left;
+      }
+      .foliumpopup th {
+        padding: 2px;
+        padding-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="folium-map" id="map_9476af929a8264a927e0c2b13ddc8d28"></div>
+  </body>
+  <script>
+    var map_9476af929a8264a927e0c2b13ddc8d28 = L.map(
+      'map_9476af929a8264a927e0c2b13ddc8d28',
+      {
+        center: [0.0, 0.0],
+        crs: L.CRS.EPSG3857,
+        ...{
+          zoom: 1,
+          zoomControl: true,
+          preferCanvas: false,
+        },
+      }
+    );
+
+    var tile_layer_8f33b5d758e306492de2827f93380c2f = L.tileLayer(
+      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        minZoom: 0,
+        maxZoom: 19,
+        maxNativeZoom: 19,
+        noWrap: false,
+        attribution:
+          '\u0026copy; \u003ca href="https://www.openstreetmap.org/copyright"\u003eOpenStreetMap\u003c/a\u003e contributors',
+        subdomains: 'abc',
+        detectRetina: false,
+        tms: false,
+        opacity: 1,
+      }
+    );
+
+    tile_layer_8f33b5d758e306492de2827f93380c2f.addTo(
+      map_9476af929a8264a927e0c2b13ddc8d28
+    );
+
+    function geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27_styler(feature) {
+      switch (feature.id) {
+        case 'great_plains-corn-field-0001':
+        case 'great_plains-corn-field-0002':
+        case 'great_plains-corn-field-0003':
+        case 'great_plains-corn-field-0007':
+        case 'great_plains-corn-field-0008':
+        case 'great_plains-corn-field-0009':
+        case 'great_plains-corn-field-0013':
+        case 'great_plains-corn-field-0014':
+        case 'great_plains-corn-field-0015':
+          return {
+            color: 'black',
+            fillColor: '#1f78b4',
+            fillOpacity: 0.6,
+            weight: 1,
+          };
+        default:
+          return {
+            color: 'black',
+            fillColor: '#33a02c',
+            fillOpacity: 0.6,
+            weight: 1,
+          };
+      }
+    }
+
+    function geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27_onEachFeature(
+      feature,
+      layer
+    ) {
+      layer.on({});
+    }
+    var geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27 = L.geoJson(null, {
+      onEachFeature: geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27_onEachFeature,
+
+      style: geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27_styler,
+      ...{},
+    });
+
+    function geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27_add(data) {
+      geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.addData(data);
+    }
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27_add({
+      features: [
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-103.95, 36.05],
+                [-103.85000000000001, 36.05],
+                [-103.85000000000001, 36.15],
+                [-103.95, 36.15],
+                [-103.95, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-corn-field-0001',
+          properties: {
+            _map_crop: 'corn',
+            area_acres: 160,
+            cdl: [
+              { crop: 'corn', crop_code: 1, year: 2020 },
+              { crop: 'corn', crop_code: 1, year: 2021 },
+              { crop: 'corn', crop_code: 1, year: 2022 },
+              { crop: 'corn', crop_code: 1, year: 2023 },
+            ],
+            crop: 'corn',
+            crop_code: 1,
+            crs: 'EPSG:4326',
+            field_id: 1,
+            region: 'Western Great Plains',
+            soil: { organic_matter: 4.3, ph: 7.0, soil_type: 'Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-103.8, 36.05],
+                [-103.7, 36.05],
+                [-103.7, 36.15],
+                [-103.8, 36.15],
+                [-103.8, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-corn-field-0002',
+          properties: {
+            _map_crop: 'corn',
+            area_acres: 160,
+            cdl: [
+              { crop: 'corn', crop_code: 1, year: 2020 },
+              { crop: 'corn', crop_code: 1, year: 2021 },
+              { crop: 'corn', crop_code: 1, year: 2022 },
+              { crop: 'corn', crop_code: 1, year: 2023 },
+            ],
+            crop: 'corn',
+            crop_code: 1,
+            crs: 'EPSG:4326',
+            field_id: 2,
+            region: 'Western Great Plains',
+            soil: { organic_matter: 1.4, ph: 6.5, soil_type: 'Silt Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-103.95, 36.2],
+                [-103.85000000000001, 36.2],
+                [-103.85000000000001, 36.300000000000004],
+                [-103.95, 36.300000000000004],
+                [-103.95, 36.2],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-corn-field-0003',
+          properties: {
+            _map_crop: 'corn',
+            area_acres: 160,
+            cdl: [
+              { crop: 'corn', crop_code: 1, year: 2020 },
+              { crop: 'corn', crop_code: 1, year: 2021 },
+              { crop: 'corn', crop_code: 1, year: 2022 },
+              { crop: 'corn', crop_code: 1, year: 2023 },
+            ],
+            crop: 'corn',
+            crop_code: 1,
+            crs: 'EPSG:4326',
+            field_id: 3,
+            region: 'Western Great Plains',
+            soil: { organic_matter: 4.0, ph: 6.6, soil_type: 'Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-103.95, 36.05],
+                [-103.85000000000001, 36.05],
+                [-103.85000000000001, 36.15],
+                [-103.95, 36.15],
+                [-103.95, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-soybean-field-0004',
+          properties: {
+            _map_crop: 'soybean',
+            area_acres: 160,
+            cdl: [
+              { crop: 'soybean', crop_code: 5, year: 2020 },
+              { crop: 'soybean', crop_code: 5, year: 2021 },
+              { crop: 'soybean', crop_code: 5, year: 2022 },
+              { crop: 'soybean', crop_code: 5, year: 2023 },
+            ],
+            crop: 'soybean',
+            crop_code: 5,
+            crs: 'EPSG:4326',
+            field_id: 4,
+            region: 'Western Great Plains',
+            soil: { organic_matter: 3.2, ph: 6.3, soil_type: 'Silt Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-103.8, 36.05],
+                [-103.7, 36.05],
+                [-103.7, 36.15],
+                [-103.8, 36.15],
+                [-103.8, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-soybean-field-0005',
+          properties: {
+            _map_crop: 'soybean',
+            area_acres: 160,
+            cdl: [
+              { crop: 'soybean', crop_code: 5, year: 2020 },
+              { crop: 'soybean', crop_code: 5, year: 2021 },
+              { crop: 'soybean', crop_code: 5, year: 2022 },
+              { crop: 'soybean', crop_code: 5, year: 2023 },
+            ],
+            crop: 'soybean',
+            crop_code: 5,
+            crs: 'EPSG:4326',
+            field_id: 5,
+            region: 'Western Great Plains',
+            soil: { organic_matter: 4.8, ph: 6.6, soil_type: 'Sandy Clay' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-103.95, 36.2],
+                [-103.85000000000001, 36.2],
+                [-103.85000000000001, 36.300000000000004],
+                [-103.95, 36.300000000000004],
+                [-103.95, 36.2],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-soybean-field-0006',
+          properties: {
+            _map_crop: 'soybean',
+            area_acres: 160,
+            cdl: [
+              { crop: 'soybean', crop_code: 5, year: 2020 },
+              { crop: 'soybean', crop_code: 5, year: 2021 },
+              { crop: 'soybean', crop_code: 5, year: 2022 },
+              { crop: 'soybean', crop_code: 5, year: 2023 },
+            ],
+            crop: 'soybean',
+            crop_code: 5,
+            crs: 'EPSG:4326',
+            field_id: 6,
+            region: 'Western Great Plains',
+            soil: { organic_matter: 2.3, ph: 6.9, soil_type: 'Silt Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-97.95, 36.05],
+                [-97.85000000000001, 36.05],
+                [-97.85000000000001, 36.15],
+                [-97.95, 36.15],
+                [-97.95, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-corn-field-0007',
+          properties: {
+            _map_crop: 'corn',
+            area_acres: 160,
+            cdl: [
+              { crop: 'corn', crop_code: 1, year: 2020 },
+              { crop: 'corn', crop_code: 1, year: 2021 },
+              { crop: 'corn', crop_code: 1, year: 2022 },
+              { crop: 'corn', crop_code: 1, year: 2023 },
+            ],
+            crop: 'corn',
+            crop_code: 1,
+            crs: 'EPSG:4326',
+            field_id: 7,
+            region: 'Central Great Plains',
+            soil: { organic_matter: 4.0, ph: 6.3, soil_type: 'Silt Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-97.8, 36.05],
+                [-97.7, 36.05],
+                [-97.7, 36.15],
+                [-97.8, 36.15],
+                [-97.8, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-corn-field-0008',
+          properties: {
+            _map_crop: 'corn',
+            area_acres: 160,
+            cdl: [
+              { crop: 'corn', crop_code: 1, year: 2020 },
+              { crop: 'corn', crop_code: 1, year: 2021 },
+              { crop: 'corn', crop_code: 1, year: 2022 },
+              { crop: 'corn', crop_code: 1, year: 2023 },
+            ],
+            crop: 'corn',
+            crop_code: 1,
+            crs: 'EPSG:4326',
+            field_id: 8,
+            region: 'Central Great Plains',
+            soil: { organic_matter: 1.8, ph: 7.1, soil_type: 'Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-97.95, 36.2],
+                [-97.85000000000001, 36.2],
+                [-97.85000000000001, 36.300000000000004],
+                [-97.95, 36.300000000000004],
+                [-97.95, 36.2],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-corn-field-0009',
+          properties: {
+            _map_crop: 'corn',
+            area_acres: 160,
+            cdl: [
+              { crop: 'corn', crop_code: 1, year: 2020 },
+              { crop: 'corn', crop_code: 1, year: 2021 },
+              { crop: 'corn', crop_code: 1, year: 2022 },
+              { crop: 'corn', crop_code: 1, year: 2023 },
+            ],
+            crop: 'corn',
+            crop_code: 1,
+            crs: 'EPSG:4326',
+            field_id: 9,
+            region: 'Central Great Plains',
+            soil: { organic_matter: 2.8, ph: 5.5, soil_type: 'Clay Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-97.95, 36.05],
+                [-97.85000000000001, 36.05],
+                [-97.85000000000001, 36.15],
+                [-97.95, 36.15],
+                [-97.95, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-soybean-field-0010',
+          properties: {
+            _map_crop: 'soybean',
+            area_acres: 160,
+            cdl: [
+              { crop: 'soybean', crop_code: 5, year: 2020 },
+              { crop: 'soybean', crop_code: 5, year: 2021 },
+              { crop: 'soybean', crop_code: 5, year: 2022 },
+              { crop: 'soybean', crop_code: 5, year: 2023 },
+            ],
+            crop: 'soybean',
+            crop_code: 5,
+            crs: 'EPSG:4326',
+            field_id: 10,
+            region: 'Central Great Plains',
+            soil: { organic_matter: 2.8, ph: 7.3, soil_type: 'Sandy Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-97.8, 36.05],
+                [-97.7, 36.05],
+                [-97.7, 36.15],
+                [-97.8, 36.15],
+                [-97.8, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-soybean-field-0011',
+          properties: {
+            _map_crop: 'soybean',
+            area_acres: 160,
+            cdl: [
+              { crop: 'soybean', crop_code: 5, year: 2020 },
+              { crop: 'soybean', crop_code: 5, year: 2021 },
+              { crop: 'soybean', crop_code: 5, year: 2022 },
+              { crop: 'soybean', crop_code: 5, year: 2023 },
+            ],
+            crop: 'soybean',
+            crop_code: 5,
+            crs: 'EPSG:4326',
+            field_id: 11,
+            region: 'Central Great Plains',
+            soil: { organic_matter: 3.9, ph: 6.5, soil_type: 'Silt Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-97.95, 36.2],
+                [-97.85000000000001, 36.2],
+                [-97.85000000000001, 36.300000000000004],
+                [-97.95, 36.300000000000004],
+                [-97.95, 36.2],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-soybean-field-0012',
+          properties: {
+            _map_crop: 'soybean',
+            area_acres: 160,
+            cdl: [
+              { crop: 'soybean', crop_code: 5, year: 2020 },
+              { crop: 'soybean', crop_code: 5, year: 2021 },
+              { crop: 'soybean', crop_code: 5, year: 2022 },
+              { crop: 'soybean', crop_code: 5, year: 2023 },
+            ],
+            crop: 'soybean',
+            crop_code: 5,
+            crs: 'EPSG:4326',
+            field_id: 12,
+            region: 'Central Great Plains',
+            soil: { organic_matter: 4.3, ph: 5.8, soil_type: 'Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-93.95, 36.05],
+                [-93.85000000000001, 36.05],
+                [-93.85000000000001, 36.15],
+                [-93.95, 36.15],
+                [-93.95, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-corn-field-0013',
+          properties: {
+            _map_crop: 'corn',
+            area_acres: 160,
+            cdl: [
+              { crop: 'corn', crop_code: 1, year: 2020 },
+              { crop: 'corn', crop_code: 1, year: 2021 },
+              { crop: 'corn', crop_code: 1, year: 2022 },
+              { crop: 'corn', crop_code: 1, year: 2023 },
+            ],
+            crop: 'corn',
+            crop_code: 1,
+            crs: 'EPSG:4326',
+            field_id: 13,
+            region: 'Eastern Great Plains',
+            soil: { organic_matter: 4.6, ph: 6.8, soil_type: 'Sandy Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-93.8, 36.05],
+                [-93.7, 36.05],
+                [-93.7, 36.15],
+                [-93.8, 36.15],
+                [-93.8, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-corn-field-0014',
+          properties: {
+            _map_crop: 'corn',
+            area_acres: 160,
+            cdl: [
+              { crop: 'corn', crop_code: 1, year: 2020 },
+              { crop: 'corn', crop_code: 1, year: 2021 },
+              { crop: 'corn', crop_code: 1, year: 2022 },
+              { crop: 'corn', crop_code: 1, year: 2023 },
+            ],
+            crop: 'corn',
+            crop_code: 1,
+            crs: 'EPSG:4326',
+            field_id: 14,
+            region: 'Eastern Great Plains',
+            soil: { organic_matter: 4.5, ph: 5.7, soil_type: 'Sandy Clay' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-93.95, 36.2],
+                [-93.85000000000001, 36.2],
+                [-93.85000000000001, 36.300000000000004],
+                [-93.95, 36.300000000000004],
+                [-93.95, 36.2],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-corn-field-0015',
+          properties: {
+            _map_crop: 'corn',
+            area_acres: 160,
+            cdl: [
+              { crop: 'corn', crop_code: 1, year: 2020 },
+              { crop: 'corn', crop_code: 1, year: 2021 },
+              { crop: 'corn', crop_code: 1, year: 2022 },
+              { crop: 'corn', crop_code: 1, year: 2023 },
+            ],
+            crop: 'corn',
+            crop_code: 1,
+            crs: 'EPSG:4326',
+            field_id: 15,
+            region: 'Eastern Great Plains',
+            soil: { organic_matter: 2.8, ph: 5.6, soil_type: 'Sandy Clay' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-93.95, 36.05],
+                [-93.85000000000001, 36.05],
+                [-93.85000000000001, 36.15],
+                [-93.95, 36.15],
+                [-93.95, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-soybean-field-0016',
+          properties: {
+            _map_crop: 'soybean',
+            area_acres: 160,
+            cdl: [
+              { crop: 'soybean', crop_code: 5, year: 2020 },
+              { crop: 'soybean', crop_code: 5, year: 2021 },
+              { crop: 'soybean', crop_code: 5, year: 2022 },
+              { crop: 'soybean', crop_code: 5, year: 2023 },
+            ],
+            crop: 'soybean',
+            crop_code: 5,
+            crs: 'EPSG:4326',
+            field_id: 16,
+            region: 'Eastern Great Plains',
+            soil: { organic_matter: 4.1, ph: 6.3, soil_type: 'Sandy Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-93.8, 36.05],
+                [-93.7, 36.05],
+                [-93.7, 36.15],
+                [-93.8, 36.15],
+                [-93.8, 36.05],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-soybean-field-0017',
+          properties: {
+            _map_crop: 'soybean',
+            area_acres: 160,
+            cdl: [
+              { crop: 'soybean', crop_code: 5, year: 2020 },
+              { crop: 'soybean', crop_code: 5, year: 2021 },
+              { crop: 'soybean', crop_code: 5, year: 2022 },
+              { crop: 'soybean', crop_code: 5, year: 2023 },
+            ],
+            crop: 'soybean',
+            crop_code: 5,
+            crs: 'EPSG:4326',
+            field_id: 17,
+            region: 'Eastern Great Plains',
+            soil: { organic_matter: 4.8, ph: 7.0, soil_type: 'Sandy Clay' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+        {
+          geometry: {
+            coordinates: [
+              [
+                [-93.95, 36.2],
+                [-93.85000000000001, 36.2],
+                [-93.85000000000001, 36.300000000000004],
+                [-93.95, 36.300000000000004],
+                [-93.95, 36.2],
+              ],
+            ],
+            type: 'Polygon',
+          },
+          id: 'great_plains-soybean-field-0018',
+          properties: {
+            _map_crop: 'soybean',
+            area_acres: 160,
+            cdl: [
+              { crop: 'soybean', crop_code: 5, year: 2020 },
+              { crop: 'soybean', crop_code: 5, year: 2021 },
+              { crop: 'soybean', crop_code: 5, year: 2022 },
+              { crop: 'soybean', crop_code: 5, year: 2023 },
+            ],
+            crop: 'soybean',
+            crop_code: 5,
+            crs: 'EPSG:4326',
+            field_id: 18,
+            region: 'Eastern Great Plains',
+            soil: { organic_matter: 4.5, ph: 6.6, soil_type: 'Clay Loam' },
+            source: 'USDA NASS CDL',
+            state: 'great_plains',
+          },
+          type: 'Feature',
+        },
+      ],
+      properties: {
+        count: 18,
+        crops: ['corn', 'soybean'],
+        crs: 'EPSG:4326',
+        source: 'USDA NASS Cropland Data Layer',
+        state: 'great_plains',
+      },
+      type: 'FeatureCollection',
+    });
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindTooltip(
+      function (layer) {
+        let div = L.DomUtil.create('div');
+
+        let handleObject = (feature) => {
+          if (feature === null) {
+            return '';
+          } else if (typeof feature == 'object') {
+            return JSON.stringify(feature);
+          } else {
+            return feature;
+          }
+        };
+        let fields = ['field_id', '_map_crop'];
+        let aliases = ['Field ID', 'Crop'];
+        let table =
+          '<table>' +
+          String(
+            fields
+              .map(
+                (v, i) =>
+                  `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`
+              )
+              .join('')
+          ) +
+          '</table>';
+        div.innerHTML = table;
+
+        return div;
+      },
+      {
+        sticky: true,
+        className: 'foliumtooltip',
+      }
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      function (layer) {
+        let div = L.DomUtil.create('div');
+
+        let handleObject = (feature) => {
+          if (feature === null) {
+            return '';
+          } else if (typeof feature == 'object') {
+            return JSON.stringify(feature);
+          } else {
+            return feature;
+          }
+        };
+        let fields = ['field_id', '_map_crop'];
+        let aliases = ['Field ID', 'Crop'];
+        let table =
+          '<table>' +
+          String(
+            fields
+              .map(
+                (v, i) =>
+                  `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`
+              )
+              .join('')
+          ) +
+          '</table>';
+        div.innerHTML = table;
+
+        return div;
+      },
+      {
+        className: 'foliumpopup',
+      }
+    );
+
+    var popup_0df0365269c8ec4fd8aa497ad4322dd5 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_d6193e438abeb3e897a255429b40a2fe = $(
+      `<div id="html_d6193e438abeb3e897a255429b40a2fe" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 1<br><b>Crop:</b> corn<br><b>Soil Type:</b> Loam<br><b>pH:</b> 7.0<br><b>Organic Matter:</b> 4.3%<br></div>`
+    )[0];
+    popup_0df0365269c8ec4fd8aa497ad4322dd5.setContent(
+      html_d6193e438abeb3e897a255429b40a2fe
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_0df0365269c8ec4fd8aa497ad4322dd5
+    );
+
+    var popup_21780868a3a11f10f7df7f5303646ff8 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_d256e59ac7d35c2ab66fa264067279e4 = $(
+      `<div id="html_d256e59ac7d35c2ab66fa264067279e4" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 2<br><b>Crop:</b> corn<br><b>Soil Type:</b> Silt Loam<br><b>pH:</b> 6.5<br><b>Organic Matter:</b> 1.4%<br></div>`
+    )[0];
+    popup_21780868a3a11f10f7df7f5303646ff8.setContent(
+      html_d256e59ac7d35c2ab66fa264067279e4
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_21780868a3a11f10f7df7f5303646ff8
+    );
+
+    var popup_d3a2a55fe45538fabb5a3d775bf1fe15 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_d3d9cb7cdbc9cd4d5b199d4f74d55173 = $(
+      `<div id="html_d3d9cb7cdbc9cd4d5b199d4f74d55173" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 3<br><b>Crop:</b> corn<br><b>Soil Type:</b> Loam<br><b>pH:</b> 6.6<br><b>Organic Matter:</b> 4.0%<br></div>`
+    )[0];
+    popup_d3a2a55fe45538fabb5a3d775bf1fe15.setContent(
+      html_d3d9cb7cdbc9cd4d5b199d4f74d55173
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_d3a2a55fe45538fabb5a3d775bf1fe15
+    );
+
+    var popup_af9b1b67c5b31e5dfc9a26e5fd7fc0fa = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_cdc27f9217dd58d4db815c9a06e23a28 = $(
+      `<div id="html_cdc27f9217dd58d4db815c9a06e23a28" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 4<br><b>Crop:</b> soybean<br><b>Soil Type:</b> Silt Loam<br><b>pH:</b> 6.3<br><b>Organic Matter:</b> 3.2%<br></div>`
+    )[0];
+    popup_af9b1b67c5b31e5dfc9a26e5fd7fc0fa.setContent(
+      html_cdc27f9217dd58d4db815c9a06e23a28
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_af9b1b67c5b31e5dfc9a26e5fd7fc0fa
+    );
+
+    var popup_52b33cea3bc791895ae2e4e2c09a0ca1 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_317f6bffe260798a472125c318d9b1c5 = $(
+      `<div id="html_317f6bffe260798a472125c318d9b1c5" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 5<br><b>Crop:</b> soybean<br><b>Soil Type:</b> Sandy Clay<br><b>pH:</b> 6.6<br><b>Organic Matter:</b> 4.8%<br></div>`
+    )[0];
+    popup_52b33cea3bc791895ae2e4e2c09a0ca1.setContent(
+      html_317f6bffe260798a472125c318d9b1c5
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_52b33cea3bc791895ae2e4e2c09a0ca1
+    );
+
+    var popup_7ec88e4699967919d0184754fc59d3f8 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_ebb0672800378c02e1ebe2db2fe3c6b6 = $(
+      `<div id="html_ebb0672800378c02e1ebe2db2fe3c6b6" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 6<br><b>Crop:</b> soybean<br><b>Soil Type:</b> Silt Loam<br><b>pH:</b> 6.9<br><b>Organic Matter:</b> 2.3%<br></div>`
+    )[0];
+    popup_7ec88e4699967919d0184754fc59d3f8.setContent(
+      html_ebb0672800378c02e1ebe2db2fe3c6b6
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_7ec88e4699967919d0184754fc59d3f8
+    );
+
+    var popup_0cc470470b8c3be808cbcb2f139a86df = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_e03d2e91dfbe5e6fad07166550ac4aff = $(
+      `<div id="html_e03d2e91dfbe5e6fad07166550ac4aff" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 7<br><b>Crop:</b> corn<br><b>Soil Type:</b> Silt Loam<br><b>pH:</b> 6.3<br><b>Organic Matter:</b> 4.0%<br></div>`
+    )[0];
+    popup_0cc470470b8c3be808cbcb2f139a86df.setContent(
+      html_e03d2e91dfbe5e6fad07166550ac4aff
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_0cc470470b8c3be808cbcb2f139a86df
+    );
+
+    var popup_fffea12e3258c857a38e5935f4e256e5 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_bca3000d509d41511e1443be76e8f23a = $(
+      `<div id="html_bca3000d509d41511e1443be76e8f23a" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 8<br><b>Crop:</b> corn<br><b>Soil Type:</b> Loam<br><b>pH:</b> 7.1<br><b>Organic Matter:</b> 1.8%<br></div>`
+    )[0];
+    popup_fffea12e3258c857a38e5935f4e256e5.setContent(
+      html_bca3000d509d41511e1443be76e8f23a
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_fffea12e3258c857a38e5935f4e256e5
+    );
+
+    var popup_365685857096fb8fb8ce72106749024e = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_ec9c143e80e1974b198a89e9036aa784 = $(
+      `<div id="html_ec9c143e80e1974b198a89e9036aa784" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 9<br><b>Crop:</b> corn<br><b>Soil Type:</b> Clay Loam<br><b>pH:</b> 5.5<br><b>Organic Matter:</b> 2.8%<br></div>`
+    )[0];
+    popup_365685857096fb8fb8ce72106749024e.setContent(
+      html_ec9c143e80e1974b198a89e9036aa784
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_365685857096fb8fb8ce72106749024e
+    );
+
+    var popup_898ed7802bfa71a618e901a10bfaa68c = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_74da72da10b95b48127638a10ec5c577 = $(
+      `<div id="html_74da72da10b95b48127638a10ec5c577" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 10<br><b>Crop:</b> soybean<br><b>Soil Type:</b> Sandy Loam<br><b>pH:</b> 7.3<br><b>Organic Matter:</b> 2.8%<br></div>`
+    )[0];
+    popup_898ed7802bfa71a618e901a10bfaa68c.setContent(
+      html_74da72da10b95b48127638a10ec5c577
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_898ed7802bfa71a618e901a10bfaa68c
+    );
+
+    var popup_4941d18dd9d2653a718f1b8e4493716e = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_32f00707a2c2d6cfd520d760e0480df8 = $(
+      `<div id="html_32f00707a2c2d6cfd520d760e0480df8" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 11<br><b>Crop:</b> soybean<br><b>Soil Type:</b> Silt Loam<br><b>pH:</b> 6.5<br><b>Organic Matter:</b> 3.9%<br></div>`
+    )[0];
+    popup_4941d18dd9d2653a718f1b8e4493716e.setContent(
+      html_32f00707a2c2d6cfd520d760e0480df8
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_4941d18dd9d2653a718f1b8e4493716e
+    );
+
+    var popup_49adf018abb23f58046fbf1d77d1a4d6 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_b6755f48104679ecbf228fd84249e47a = $(
+      `<div id="html_b6755f48104679ecbf228fd84249e47a" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 12<br><b>Crop:</b> soybean<br><b>Soil Type:</b> Loam<br><b>pH:</b> 5.8<br><b>Organic Matter:</b> 4.3%<br></div>`
+    )[0];
+    popup_49adf018abb23f58046fbf1d77d1a4d6.setContent(
+      html_b6755f48104679ecbf228fd84249e47a
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_49adf018abb23f58046fbf1d77d1a4d6
+    );
+
+    var popup_7b2610b6ccf09944563d993c19f308af = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_1c8ad10602a0a3287a97c01c92b11b07 = $(
+      `<div id="html_1c8ad10602a0a3287a97c01c92b11b07" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 13<br><b>Crop:</b> corn<br><b>Soil Type:</b> Sandy Loam<br><b>pH:</b> 6.8<br><b>Organic Matter:</b> 4.6%<br></div>`
+    )[0];
+    popup_7b2610b6ccf09944563d993c19f308af.setContent(
+      html_1c8ad10602a0a3287a97c01c92b11b07
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_7b2610b6ccf09944563d993c19f308af
+    );
+
+    var popup_e062ec8f2928d668ac7ec1dca15eccb3 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_e43c82e3586febb15d49f28a1dbe8514 = $(
+      `<div id="html_e43c82e3586febb15d49f28a1dbe8514" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 14<br><b>Crop:</b> corn<br><b>Soil Type:</b> Sandy Clay<br><b>pH:</b> 5.7<br><b>Organic Matter:</b> 4.5%<br></div>`
+    )[0];
+    popup_e062ec8f2928d668ac7ec1dca15eccb3.setContent(
+      html_e43c82e3586febb15d49f28a1dbe8514
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_e062ec8f2928d668ac7ec1dca15eccb3
+    );
+
+    var popup_de471f0bc8211c7908f287385600ba40 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_d5dea0f30dbd4817525562e3c6ac53ba = $(
+      `<div id="html_d5dea0f30dbd4817525562e3c6ac53ba" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 15<br><b>Crop:</b> corn<br><b>Soil Type:</b> Sandy Clay<br><b>pH:</b> 5.6<br><b>Organic Matter:</b> 2.8%<br></div>`
+    )[0];
+    popup_de471f0bc8211c7908f287385600ba40.setContent(
+      html_d5dea0f30dbd4817525562e3c6ac53ba
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_de471f0bc8211c7908f287385600ba40
+    );
+
+    var popup_abf5567a2f0f2aed90095dee8aae70d8 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_45512919c46c48e100a772b266ecd3f3 = $(
+      `<div id="html_45512919c46c48e100a772b266ecd3f3" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 16<br><b>Crop:</b> soybean<br><b>Soil Type:</b> Sandy Loam<br><b>pH:</b> 6.3<br><b>Organic Matter:</b> 4.1%<br></div>`
+    )[0];
+    popup_abf5567a2f0f2aed90095dee8aae70d8.setContent(
+      html_45512919c46c48e100a772b266ecd3f3
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_abf5567a2f0f2aed90095dee8aae70d8
+    );
+
+    var popup_3cff55f442e6ff13d7d574906d22fc22 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_d1967aa8b1c9f42fa228c0c1201f746c = $(
+      `<div id="html_d1967aa8b1c9f42fa228c0c1201f746c" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 17<br><b>Crop:</b> soybean<br><b>Soil Type:</b> Sandy Clay<br><b>pH:</b> 7.0<br><b>Organic Matter:</b> 4.8%<br></div>`
+    )[0];
+    popup_3cff55f442e6ff13d7d574906d22fc22.setContent(
+      html_d1967aa8b1c9f42fa228c0c1201f746c
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_3cff55f442e6ff13d7d574906d22fc22
+    );
+
+    var popup_3c93419e5b071779f7ff4cf79b577ba6 = L.popup({
+      maxWidth: '100%',
+    });
+
+    var html_dd89dcd04432b168d9718bf62cf2338a = $(
+      `<div id="html_dd89dcd04432b168d9718bf62cf2338a" style="width: 100.0%; height: 100.0%;"><b>Field ID:</b> 18<br><b>Crop:</b> soybean<br><b>Soil Type:</b> Clay Loam<br><b>pH:</b> 6.6<br><b>Organic Matter:</b> 4.5%<br></div>`
+    )[0];
+    popup_3c93419e5b071779f7ff4cf79b577ba6.setContent(
+      html_dd89dcd04432b168d9718bf62cf2338a
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.bindPopup(
+      popup_3c93419e5b071779f7ff4cf79b577ba6
+    );
+
+    geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27.addTo(
+      map_9476af929a8264a927e0c2b13ddc8d28
+    );
+
+    var layer_control_ef0c2de2929e6d7390ed0751478d361d_layers = {
+      base_layers: {
+        openstreetmap: tile_layer_8f33b5d758e306492de2827f93380c2f,
+      },
+      overlays: {
+        fields: geo_json_b4b1de43f38b15ccdfd5327ac8fbfc27,
+      },
+    };
+    let layer_control_ef0c2de2929e6d7390ed0751478d361d = L.control
+      .layers(
+        layer_control_ef0c2de2929e6d7390ed0751478d361d_layers.base_layers,
+        layer_control_ef0c2de2929e6d7390ed0751478d361d_layers.overlays,
+        {
+          position: 'topright',
+          collapsed: true,
+          autoZIndex: true,
+        }
+      )
+      .addTo(map_9476af929a8264a927e0c2b13ddc8d28);
+  </script>
+</html>
