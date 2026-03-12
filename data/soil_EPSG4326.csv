@@ -1,0 +1,21 @@
+field_id,mapunit_name,component_name,soil_type,drainage_class,slope_pct,ph,organic_matter,source,crs
+1,"Storden loam, 2 to 5 percent slopes",Storden,Storden Loam,Well drained,3.5,7.11,3.61,USDA NRCS SSURGO,EPSG:4326
+2,"Webster clay loam, 0 to 2 percent slopes",Webster,Webster Clay Loam,Poorly drained,1.0,6.22,4.84,USDA NRCS SSURGO,EPSG:4326
+3,"Storden loam, 2 to 5 percent slopes",Storden,Storden Loam,Well drained,3.5,7.74,3.32,USDA NRCS SSURGO,EPSG:4326
+4,"Harps clay loam, 0 to 1 percent slopes",Harps,Harps Clay Loam,Poorly drained,0.5,7.8,3.56,USDA NRCS SSURGO,EPSG:4326
+5,"Webster clay loam, 0 to 2 percent slopes",Webster,Webster Clay Loam,Poorly drained,1.0,6.23,4.51,USDA NRCS SSURGO,EPSG:4326
+6,"Harps clay loam, 0 to 1 percent slopes",Harps,Harps Clay Loam,Poorly drained,0.5,7.64,4.8,USDA NRCS SSURGO,EPSG:4326
+7,"Harps clay loam, 0 to 1 percent slopes",Harps,Harps Clay Loam,Poorly drained,0.5,7.79,4.4,USDA NRCS SSURGO,EPSG:4326
+8,"Nicollet loam, 1 to 3 percent slopes",Nicollet,Nicollet Loam,Somewhat poorly drained,2.0,7.21,2.51,USDA NRCS SSURGO,EPSG:4326
+9,"Webster clay loam, 0 to 2 percent slopes",Webster,Webster Clay Loam,Poorly drained,1.0,6.7,3.85,USDA NRCS SSURGO,EPSG:4326
+10,"Webster clay loam, 0 to 2 percent slopes",Webster,Webster Clay Loam,Poorly drained,1.0,6.22,4.91,USDA NRCS SSURGO,EPSG:4326
+11,"Clarion loam, 2 to 5 percent slopes",Clarion,Clarion Loam,Well drained,3.5,6.11,3.65,USDA NRCS SSURGO,EPSG:4326
+12,"Nicollet loam, 1 to 3 percent slopes",Nicollet,Nicollet Loam,Somewhat poorly drained,2.0,6.91,4.11,USDA NRCS SSURGO,EPSG:4326
+13,"Storden loam, 2 to 5 percent slopes",Storden,Storden Loam,Well drained,3.5,7.46,2.69,USDA NRCS SSURGO,EPSG:4326
+14,"Canisteo clay loam, 0 to 2 percent slopes",Canisteo,Canisteo Clay Loam,Poorly drained,1.0,7.08,3.59,USDA NRCS SSURGO,EPSG:4326
+15,"Storden loam, 2 to 5 percent slopes",Storden,Storden Loam,Well drained,3.5,7.62,3.79,USDA NRCS SSURGO,EPSG:4326
+16,"Harps clay loam, 0 to 1 percent slopes",Harps,Harps Clay Loam,Poorly drained,0.5,7.63,3.64,USDA NRCS SSURGO,EPSG:4326
+17,"Storden loam, 2 to 5 percent slopes",Storden,Storden Loam,Well drained,3.5,7.23,2.93,USDA NRCS SSURGO,EPSG:4326
+18,"Clarion loam, 2 to 5 percent slopes",Clarion,Clarion Loam,Well drained,3.5,7.03,4.8,USDA NRCS SSURGO,EPSG:4326
+19,"Canisteo clay loam, 0 to 2 percent slopes",Canisteo,Canisteo Clay Loam,Poorly drained,1.0,7.28,4.27,USDA NRCS SSURGO,EPSG:4326
+20,"Nicollet loam, 1 to 3 percent slopes",Nicollet,Nicollet Loam,Somewhat poorly drained,2.0,6.24,3.21,USDA NRCS SSURGO,EPSG:4326
