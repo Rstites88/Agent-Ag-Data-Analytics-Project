@@ -159,7 +159,18 @@ class NRCSSoilTool(BaseTool):
             if not features:
                 return f"Error: No features found in {fields_path}"
 
-            field_ids = [feat["properties"]["field_id"] for feat in features]
+            field_ids = []
+            for idx, feat in enumerate(features):
+                props = feat.get("properties") or {}
+                fid = props.get("field_id")
+                if fid is None:
+                    logger.warning(f"Feature at index {idx} has no field_id — skipping")
+                    continue
+                field_ids.append(fid)
+
+            if not field_ids:
+                return f"Error: No valid field_id values found in {fields_path}"
+
             logger.info(f"Fetching NRCS soil data for {len(field_ids)} fields")
 
             soil_records = self._fetch_soil_data(field_ids)
