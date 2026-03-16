@@ -1,0 +1,1031 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0001",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.55,
+              41.55
+            ],
+            [
+              -94.45,
+              41.55
+            ],
+            [
+              -94.45,
+              41.65
+            ],
+            [
+              -94.55,
+              41.65
+            ],
+            [
+              -94.55,
+              41.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 1,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Storden Loam",
+          "mapunit_name": "Storden loam, 2 to 5 percent slopes",
+          "component_name": "Storden",
+          "drainage_class": "Well drained",
+          "slope_pct": 3.5,
+          "ph": 7.11,
+          "organic_matter": 3.61,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0002",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.39999999999999,
+              41.55
+            ],
+            [
+              -94.3,
+              41.55
+            ],
+            [
+              -94.3,
+              41.65
+            ],
+            [
+              -94.39999999999999,
+              41.65
+            ],
+            [
+              -94.39999999999999,
+              41.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 2,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Webster Clay Loam",
+          "mapunit_name": "Webster clay loam, 0 to 2 percent slopes",
+          "component_name": "Webster",
+          "drainage_class": "Poorly drained",
+          "slope_pct": 1.0,
+          "ph": 6.22,
+          "organic_matter": 4.84,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0003",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.55,
+              41.7
+            ],
+            [
+              -94.45,
+              41.7
+            ],
+            [
+              -94.45,
+              41.800000000000004
+            ],
+            [
+              -94.55,
+              41.800000000000004
+            ],
+            [
+              -94.55,
+              41.7
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 3,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Storden Loam",
+          "mapunit_name": "Storden loam, 2 to 5 percent slopes",
+          "component_name": "Storden",
+          "drainage_class": "Well drained",
+          "slope_pct": 3.5,
+          "ph": 7.74,
+          "organic_matter": 3.32,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0004",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.55,
+              41.55
+            ],
+            [
+              -94.45,
+              41.55
+            ],
+            [
+              -94.45,
+              41.65
+            ],
+            [
+              -94.55,
+              41.65
+            ],
+            [
+              -94.55,
+              41.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 4,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Harps Clay Loam",
+          "mapunit_name": "Harps clay loam, 0 to 1 percent slopes",
+          "component_name": "Harps",
+          "drainage_class": "Poorly drained",
+          "slope_pct": 0.5,
+          "ph": 7.8,
+          "organic_matter": 3.56,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0005",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.39999999999999,
+              41.55
+            ],
+            [
+              -94.3,
+              41.55
+            ],
+            [
+              -94.3,
+              41.65
+            ],
+            [
+              -94.39999999999999,
+              41.65
+            ],
+            [
+              -94.39999999999999,
+              41.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 5,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Webster Clay Loam",
+          "mapunit_name": "Webster clay loam, 0 to 2 percent slopes",
+          "component_name": "Webster",
+          "drainage_class": "Poorly drained",
+          "slope_pct": 1.0,
+          "ph": 6.23,
+          "organic_matter": 4.51,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0006",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.55,
+              41.7
+            ],
+            [
+              -94.45,
+              41.7
+            ],
+            [
+              -94.45,
+              41.800000000000004
+            ],
+            [
+              -94.55,
+              41.800000000000004
+            ],
+            [
+              -94.55,
+              41.7
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 6,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "Corn Belt Central",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Harps Clay Loam",
+          "mapunit_name": "Harps clay loam, 0 to 1 percent slopes",
+          "component_name": "Harps",
+          "drainage_class": "Poorly drained",
+          "slope_pct": 0.5,
+          "ph": 7.64,
+          "organic_matter": 4.8,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0007",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.75,
+              41.05
+            ],
+            [
+              -95.65,
+              41.05
+            ],
+            [
+              -95.65,
+              41.15
+            ],
+            [
+              -95.75,
+              41.15
+            ],
+            [
+              -95.75,
+              41.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 7,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Harps Clay Loam",
+          "mapunit_name": "Harps clay loam, 0 to 1 percent slopes",
+          "component_name": "Harps",
+          "drainage_class": "Poorly drained",
+          "slope_pct": 0.5,
+          "ph": 7.79,
+          "organic_matter": 4.4,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0008",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.6,
+              41.05
+            ],
+            [
+              -95.5,
+              41.05
+            ],
+            [
+              -95.5,
+              41.15
+            ],
+            [
+              -95.6,
+              41.15
+            ],
+            [
+              -95.6,
+              41.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 8,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Nicollet Loam",
+          "mapunit_name": "Nicollet loam, 1 to 3 percent slopes",
+          "component_name": "Nicollet",
+          "drainage_class": "Somewhat poorly drained",
+          "slope_pct": 2.0,
+          "ph": 7.21,
+          "organic_matter": 2.51,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0009",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.75,
+              41.2
+            ],
+            [
+              -95.65,
+              41.2
+            ],
+            [
+              -95.65,
+              41.300000000000004
+            ],
+            [
+              -95.75,
+              41.300000000000004
+            ],
+            [
+              -95.75,
+              41.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 9,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Webster Clay Loam",
+          "mapunit_name": "Webster clay loam, 0 to 2 percent slopes",
+          "component_name": "Webster",
+          "drainage_class": "Poorly drained",
+          "slope_pct": 1.0,
+          "ph": 6.7,
+          "organic_matter": 3.85,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0010",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.75,
+              41.05
+            ],
+            [
+              -95.65,
+              41.05
+            ],
+            [
+              -95.65,
+              41.15
+            ],
+            [
+              -95.75,
+              41.15
+            ],
+            [
+              -95.75,
+              41.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 10,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Webster Clay Loam",
+          "mapunit_name": "Webster clay loam, 0 to 2 percent slopes",
+          "component_name": "Webster",
+          "drainage_class": "Poorly drained",
+          "slope_pct": 1.0,
+          "ph": 6.22,
+          "organic_matter": 4.91,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0011",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.6,
+              41.05
+            ],
+            [
+              -95.5,
+              41.05
+            ],
+            [
+              -95.5,
+              41.15
+            ],
+            [
+              -95.6,
+              41.15
+            ],
+            [
+              -95.6,
+              41.05
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 11,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Clarion Loam",
+          "mapunit_name": "Clarion loam, 2 to 5 percent slopes",
+          "component_name": "Clarion",
+          "drainage_class": "Well drained",
+          "slope_pct": 3.5,
+          "ph": 6.11,
+          "organic_matter": 3.65,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0012",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.75,
+              41.2
+            ],
+            [
+              -95.65,
+              41.2
+            ],
+            [
+              -95.65,
+              41.300000000000004
+            ],
+            [
+              -95.75,
+              41.300000000000004
+            ],
+            [
+              -95.75,
+              41.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 12,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "West Central Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Nicollet Loam",
+          "mapunit_name": "Nicollet loam, 1 to 3 percent slopes",
+          "component_name": "Nicollet",
+          "drainage_class": "Somewhat poorly drained",
+          "slope_pct": 2.0,
+          "ph": 6.91,
+          "organic_matter": 4.11,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0013",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.95,
+              42.55
+            ],
+            [
+              -90.85000000000001,
+              42.55
+            ],
+            [
+              -90.85000000000001,
+              42.65
+            ],
+            [
+              -90.95,
+              42.65
+            ],
+            [
+              -90.95,
+              42.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 13,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Storden Loam",
+          "mapunit_name": "Storden loam, 2 to 5 percent slopes",
+          "component_name": "Storden",
+          "drainage_class": "Well drained",
+          "slope_pct": 3.5,
+          "ph": 7.46,
+          "organic_matter": 2.69,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0014",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.8,
+              42.55
+            ],
+            [
+              -90.7,
+              42.55
+            ],
+            [
+              -90.7,
+              42.65
+            ],
+            [
+              -90.8,
+              42.65
+            ],
+            [
+              -90.8,
+              42.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 14,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Canisteo Clay Loam",
+          "mapunit_name": "Canisteo clay loam, 0 to 2 percent slopes",
+          "component_name": "Canisteo",
+          "drainage_class": "Poorly drained",
+          "slope_pct": 1.0,
+          "ph": 7.08,
+          "organic_matter": 3.59,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0015",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.95,
+              42.7
+            ],
+            [
+              -90.85000000000001,
+              42.7
+            ],
+            [
+              -90.85000000000001,
+              42.800000000000004
+            ],
+            [
+              -90.95,
+              42.800000000000004
+            ],
+            [
+              -90.95,
+              42.7
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 15,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Storden Loam",
+          "mapunit_name": "Storden loam, 2 to 5 percent slopes",
+          "component_name": "Storden",
+          "drainage_class": "Well drained",
+          "slope_pct": 3.5,
+          "ph": 7.62,
+          "organic_matter": 3.79,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0016",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.95,
+              42.55
+            ],
+            [
+              -90.85000000000001,
+              42.55
+            ],
+            [
+              -90.85000000000001,
+              42.65
+            ],
+            [
+              -90.95,
+              42.65
+            ],
+            [
+              -90.95,
+              42.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 16,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Harps Clay Loam",
+          "mapunit_name": "Harps clay loam, 0 to 1 percent slopes",
+          "component_name": "Harps",
+          "drainage_class": "Poorly drained",
+          "slope_pct": 0.5,
+          "ph": 7.63,
+          "organic_matter": 3.64,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0017",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.8,
+              42.55
+            ],
+            [
+              -90.7,
+              42.55
+            ],
+            [
+              -90.7,
+              42.65
+            ],
+            [
+              -90.8,
+              42.65
+            ],
+            [
+              -90.8,
+              42.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 17,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Storden Loam",
+          "mapunit_name": "Storden loam, 2 to 5 percent slopes",
+          "component_name": "Storden",
+          "drainage_class": "Well drained",
+          "slope_pct": 3.5,
+          "ph": 7.23,
+          "organic_matter": 2.93,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-soybean-field-0018",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.95,
+              42.7
+            ],
+            [
+              -90.85000000000001,
+              42.7
+            ],
+            [
+              -90.85000000000001,
+              42.800000000000004
+            ],
+            [
+              -90.95,
+              42.800000000000004
+            ],
+            [
+              -90.95,
+              42.7
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 18,
+        "crop": "soybean",
+        "crop_code": 5,
+        "state": "Iowa",
+        "region": "NE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Clarion Loam",
+          "mapunit_name": "Clarion loam, 2 to 5 percent slopes",
+          "component_name": "Clarion",
+          "drainage_class": "Well drained",
+          "slope_pct": 3.5,
+          "ph": 7.03,
+          "organic_matter": 4.8,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0019",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -91.45,
+              40.55
+            ],
+            [
+              -91.35000000000001,
+              40.55
+            ],
+            [
+              -91.35000000000001,
+              40.65
+            ],
+            [
+              -91.45,
+              40.65
+            ],
+            [
+              -91.45,
+              40.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 19,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "SE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Canisteo Clay Loam",
+          "mapunit_name": "Canisteo clay loam, 0 to 2 percent slopes",
+          "component_name": "Canisteo",
+          "drainage_class": "Poorly drained",
+          "slope_pct": 1.0,
+          "ph": 7.28,
+          "organic_matter": 4.27,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "iowa-corn-field-0020",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -91.3,
+              40.55
+            ],
+            [
+              -91.2,
+              40.55
+            ],
+            [
+              -91.2,
+              40.65
+            ],
+            [
+              -91.3,
+              40.65
+            ],
+            [
+              -91.3,
+              40.55
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "field_id": 20,
+        "crop": "corn",
+        "crop_code": 1,
+        "state": "Iowa",
+        "region": "SE Iowa",
+        "area_acres": 160,
+        "crs": "EPSG:4326",
+        "source": "USDA NASS CDL",
+        "soil": {
+          "soil_type": "Nicollet Loam",
+          "mapunit_name": "Nicollet loam, 1 to 3 percent slopes",
+          "component_name": "Nicollet",
+          "drainage_class": "Somewhat poorly drained",
+          "slope_pct": 2.0,
+          "ph": 6.24,
+          "organic_matter": 3.21,
+          "source": "USDA NRCS SSURGO"
+        }
+      }
+    }
+  ],
+  "properties": {
+    "source": "USDA NRCS SSURGO",
+    "state": "Iowa",
+    "count": 20,
+    "crs": "EPSG:4326"
+  }
+}
